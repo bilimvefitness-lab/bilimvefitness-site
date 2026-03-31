@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: book-ai-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: EMBEDDING_MODEL
+        value: text-embedding-3-small
+      - key: UPLOAD_DIR
+        value: /tmp/book-ai-uploads
+      - key: OPENAI_API_KEY
+        sync: false

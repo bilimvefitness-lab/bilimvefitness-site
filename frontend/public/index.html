@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book AI Studio</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <p class="eyebrow">Book AI Studio</p>
+        <h1>Upload a PDF, analyze a training program, and generate a readable coach report.</h1>
+        <p class="subtitle">
+          Backend expected at <code>http://127.0.0.1:8000/api/v1</code>
+        </p>
+      </section>
+
+      <section class="layout">
+        <section class="card">
+          <div class="section-header">
+            <h2>PDF Upload</h2>
+            <span class="badge">RAG</span>
+          </div>
+          <form id="upload-form">
+            <input id="pdf-file" type="file" accept="application/pdf" required />
+            <button type="submit">Upload PDF</button>
+          </form>
+          <div id="upload-result" class="message-box">No PDF uploaded yet.</div>
+
+          <div class="section-header section-spacer">
+            <h3>Documents</h3>
+            <button id="refresh-documents" type="button" class="button-secondary">Refresh</button>
+          </div>
+          <div id="documents" class="documents"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <h2>Chat with PDF</h2>
+            <span class="badge badge-soft">Retrieved chunks only</span>
+          </div>
+          <form id="chat-form">
+            <label for="document-id">Document ID</label>
+            <input id="document-id" type="text" placeholder="Paste or click a document ID" />
+            <label for="question">Question</label>
+            <textarea id="question" rows="5" placeholder="Ask a question about the uploaded PDF" required></textarea>
+            <button type="submit">Ask Question</button>
+          </form>
+          <div id="chat-result" class="chat-panel empty-state">No chat response yet.</div>
+        </section>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Training Program Analysis</h2>
+          <span class="badge">Rule-based</span>
+        </div>
+        <form id="training-form">
+          <label for="training-program">Training Program</label>
+          <textarea
+            id="training-program"
+            rows="14"
+            placeholder="Example:
+Day 1 Push
+Bench Press - 4x8 @ 2 RIR
+Incline Dumbbell Press - 3x10
+Machine Chest Press - 3x12
+Lateral Raise - 4x15
+Triceps Pushdown - 3x12"
+            required
+          ></textarea>
+          <button type="submit">Analyze Program</button>
+        </form>
+      </section>
+
+      <section class="layout">
+        <section class="card">
+          <div class="section-header">
+            <h2>Analysis Result</h2>
+            <span id="analysis-status" class="muted-text">Waiting for analysis</span>
+          </div>
+          <div id="analysis-result" class="analysis-view empty-state">
+            Submit a training program to see the hypertrophy score, strengths, limiters, and key metrics.
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <h2>Program Report</h2>
+            <span id="report-status" class="muted-text">Waiting for report</span>
+          </div>
+          <div id="report-result" class="report-view empty-state">
+            The structured coach report will appear here after analysis.
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
