@@ -1,6 +1,8 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Pressable, View, ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { useApp } from "../context/AppContext";
+import { trackEvent } from "../utils/analytics";
 
 const GENDER_OPTIONS = [
   { value: "male", label: "Erkek" },
@@ -70,6 +72,9 @@ export default function ProfileScreen() {
   const { profileForm, setProfileForm, profileState, goals, saveProfile } = useApp();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const navigation = useNavigation();
+
+  useEffect(() => { trackEvent("profile_opened"); }, []);
 
   function update(key, val) {
     setProfileForm((prev) => ({ ...prev, [key]: val }));
@@ -93,7 +98,9 @@ export default function ProfileScreen() {
 
         {/* ── Form ─────────────────────────────────────────────── */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ölçüler</Text>
+          <Pressable onLongPress={__DEV__ ? () => navigation.navigate("AnalyticsDebug") : undefined}>
+            <Text style={styles.sectionTitle}>Ölçüler</Text>
+          </Pressable>
           <FieldInput label="Kilo (kg)" value={profileForm.weight_kg} onChangeText={(v) => update("weight_kg", v)} keyboardType="numeric" />
           <FieldInput label="Boy (cm)" value={profileForm.height_cm} onChangeText={(v) => update("height_cm", v)} keyboardType="numeric" />
           <FieldInput label="Yaş" value={profileForm.age} onChangeText={(v) => update("age", v)} keyboardType="numeric" />

@@ -5,6 +5,7 @@ import { loadActiveStepDashboardData } from "../steps/dashboard";
 import { buildLocalStepInsight } from "../steps/service";
 import { STEP_GOAL, formatStepPermissionLabel } from "../steps/insights";
 import { buildActiveStepCoach } from "../steps/coach";
+import { trackEvent } from "../utils/analytics";
 
 // ─── Storage keys ────────────────────────────────────────────────────────────
 const USER_STORAGE_KEY = "fitness-notebook-mobile-user-id";
@@ -238,6 +239,7 @@ export function AppProvider({ children }) {
       const id = stored || createUserId();
       if (!stored) AsyncStorage.setItem(USER_STORAGE_KEY, id);
       setUserId(id);
+      trackEvent("app_open", { userId: id, isReturning: !!stored });
     });
   }, []);
 
@@ -342,6 +344,7 @@ export function AppProvider({ children }) {
       });
       if (recalc?.goals) setGoals(recalc.goals);
       setProfileState({ status: "hazır", feedback: "Kaydedildi.", tone: "success" });
+      trackEvent("profile_saved", { userId });
       await loadDailyPanels(userId, mealDate, true);
       return true;
     } catch (error) {
@@ -466,6 +469,7 @@ export function AppProvider({ children }) {
       const target = hydrationData?.target_ml ?? stepInsight.hydrationTargetMl ?? 2500;
       setHydrationData(mergeHydrationSummary(hydrationData, amountMl, target));
       setHydrationState("hazır");
+      trackEvent("water_added", { amountMl, date: mealDate });
     } catch (error) {
       console.warn("[addWater]", error);
     }
@@ -501,6 +505,7 @@ export function AppProvider({ children }) {
 
       // Instead of relying solely on frontend recalculation, we can just trigger a robust load
       await loadDailyPanels(userId, mealDate, hasProfile);
+      trackEvent("meal_added", { mealType, date: mealDate });
       return true;
     } catch (err) {
       console.warn("Local meal save failed", err);
@@ -522,6 +527,7 @@ export function AppProvider({ children }) {
         stepCount: currentCount + Number(count)
       };
       await AsyncStorage.setItem(MANUAL_STEP_STORAGE_KEY, JSON.stringify(manualRecords));
+      trackEvent("steps_added", { count: Number(count), date: dateKey });
       await loadStepsDashboard();
     } catch (err) {
       console.warn("Failed to save manual steps", err);
@@ -557,6 +563,7 @@ export function AppProvider({ children }) {
         longestStreak: payload.longestStreak,
         lastCompletedDate: payload.lastCompletedDate
       });
+      trackEvent("day_completed", { date: mealDate, streak: payload.currentStreak });
       return true;
     } catch (err) {
       console.warn("Complete day failed", err);

@@ -1,8 +1,10 @@
 import { Share } from "react-native";
 import { Pressable, SafeAreaView, ScrollView, Text, View, StyleSheet } from "react-native";
-import { useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import * as Haptics from "expo-haptics";
 import { useApp } from "../context/AppContext";
 import { resolveProblem } from "../utils/problemEngine";
+import { trackEvent } from "../utils/analytics";
 
 export default function HomeScreen({ navigation }) {
   const {
@@ -15,7 +17,15 @@ export default function HomeScreen({ navigation }) {
     stepPermission,
     sleepData,
     streakSummary,
+    addWaterMl,
+    addManualSteps,
   } = useApp();
+  
+  const [waterFeedback, setWaterFeedback] = useState(null);
+  const [stepsFeedback, setStepsFeedback] = useState(null);
+  const lastProblemKey = useRef(null);
+
+  useEffect(() => { trackEvent("home_opened"); }, []);
 
   // ── Problem engine: one problem, one action ──────────────────────────────
   const problem = useMemo(
@@ -33,6 +43,20 @@ export default function HomeScreen({ navigation }) {
     [hasProfile, goals, dailyCoach, dailySummary, hydrationData, todaySteps, stepPermission, sleepData]
   );
 
+  // ── Track which problem is shown (deduplicated) ──────────────────────────
+  useEffect(() => {
+    const key = `${problem.priority}::${problem.text}`;
+    if (key === lastProblemKey.current) return;
+    lastProblemKey.current = key;
+    trackEvent("problem_shown", {
+      priority: problem.priority,
+      text: problem.text,
+      actionLabel: problem.action?.label ?? null,
+      quickAction: problem.quickAction ?? null,
+      hour: new Date().getHours(),
+    });
+  }, [problem]);
+
   // ── Share (only when streak ≥ 3 or strong score) ─────────────────────────
   const score = dailyCoach?.behavior_score ?? null;
   const hasHighScore = Number(score?.total ?? 0) >= 85 || score?.status === "strong";
@@ -43,6 +67,11 @@ export default function HomeScreen({ navigation }) {
     : `Bugün uyum skorum ${score?.total ?? "-"}/100. Hedeflerimi tutturuyorum 🚀`;
 
   async function handleShare() {
+    trackEvent("share_tapped", {
+      streak: streakSummary.days,
+      problemPriority: problem.priority,
+      trigger: hasShareableStreak ? "streak" : "score",
+    });
     try {
       await Share.share({ message: shareText });
     } catch (_) {}
@@ -51,7 +80,30 @@ export default function HomeScreen({ navigation }) {
   // ── Action press ─────────────────────────────────────────────────────────
   function handleAction() {
     if (!problem.action) return;
+    trackEvent("problem_action_tapped", {
+      priority: problem.priority,
+      text: problem.text,
+      actionLabel: problem.action.label,
+      quickAction: problem.quickAction ?? null,
+      hour: new Date().getHours(),
+    });
     navigation.navigate(problem.action.screen);
+  }
+
+  async function handleQuickWater(amount) {
+    await addWaterMl(amount);
+    setWaterFeedback(amount);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    trackEvent("home_quick_water_used", { amountMl: amount });
+    setTimeout(() => setWaterFeedback(null), 1500);
+  }
+
+  async function handleQuickSteps(amount) {
+    await addManualSteps(amount);
+    setStepsFeedback(amount);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    trackEvent("home_quick_steps_used", { count: amount });
+    setTimeout(() => setStepsFeedback(null), 1500);
   }
 
   return (
@@ -66,8 +118,42 @@ export default function HomeScreen({ navigation }) {
           ) : null}
         </View>
 
-        {/* ── Primary action ─────────────────────────────────────── */}
-        {problem.action ? (
+        {/* ── Primary or Quick Action ────────────────────────────── */}
+        {problem.quickAction === "water" ? (
+          <View style={styles.quickActionCard}>
+            <Text style={styles.quickActionLabel}>Hızlı Ekle</Text>
+            <View style={styles.quickActionRow}>
+              {[200, 300, 500].map((amount) => (
+                <Pressable
+                  key={amount}
+                  style={styles.quickActionButton}
+                  onPress={() => handleQuickWater(amount)}
+                >
+                  <Text style={styles.quickActionText}>
+                    {waterFeedback === amount ? "✓" : `+${amount}ml`}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        ) : problem.quickAction === "steps" ? (
+          <View style={styles.quickActionCard}>
+            <Text style={styles.quickActionLabel}>Manuel Adım Ekle</Text>
+            <View style={styles.quickActionRow}>
+              {[500, 1000].map((amount) => (
+                <Pressable
+                  key={amount}
+                  style={styles.quickActionButton}
+                  onPress={() => handleQuickSteps(amount)}
+                >
+                  <Text style={styles.quickActionText}>
+                    {stepsFeedback === amount ? "✓" : `+${amount}`}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+        ) : problem.action ? (
           <Pressable style={styles.actionButton} onPress={handleAction}>
             <Text style={styles.actionButtonText}>{problem.action.label}</Text>
           </Pressable>
@@ -131,6 +217,36 @@ const styles = StyleSheet.create({
   actionButtonText: {
     color: "#ffffff",
     fontSize: 17,
+    fontWeight: "800",
+  },
+  
+  // Quick Actions
+  quickActionCard: {
+    backgroundColor: "#d8e9dc",
+    padding: 18,
+    borderRadius: 16,
+    gap: 12,
+  },
+  quickActionLabel: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#295c41",
+    textTransform: "uppercase",
+  },
+  quickActionRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  quickActionButton: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  quickActionText: {
+    color: "#295c41",
+    fontSize: 16,
     fontWeight: "800",
   },
 

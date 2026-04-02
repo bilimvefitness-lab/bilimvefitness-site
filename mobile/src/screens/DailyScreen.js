@@ -1,5 +1,7 @@
-import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput } from "react-native";
+import * as Haptics from "expo-haptics";
 import { useApp } from "../context/AppContext";
+import { trackEvent } from "../utils/analytics";
 
 // ─── Tiny helpers (local, no imports) ────────────────────────────────────────
 
@@ -107,12 +109,20 @@ export default function DailyScreen() {
   const [mealText, setMealText] = React.useState("");
   const [isSavingMeal, setIsSavingMeal] = React.useState(false);
   const [isCompleting, setIsCompleting] = React.useState(false);
+  
+  // UX Feedback states
+  const [feedbackMeal, setFeedbackMeal] = React.useState(null);
+  const [feedbackWater, setFeedbackWater] = React.useState(null);
+  const [feedbackSteps, setFeedbackSteps] = React.useState(null);
+
+  React.useEffect(() => { trackEvent("daily_opened"); }, []);
 
   const isDayCompletedForCurrentDate = streakSummary?.completedDates?.includes(mealDate);
 
   async function handleCompleteDay() {
     setIsCompleting(true);
     await completeDay();
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
     setIsCompleting(false);
   }
 
@@ -122,15 +132,39 @@ export default function DailyScreen() {
     const success = await submitMeal(mealType, mealText);
     if (success) {
       setMealText("");
+      setFeedbackMeal("Eklendi ✓");
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      setTimeout(() => setFeedbackMeal(null), 2000);
     }
     setIsSavingMeal(false);
   }
 
+  async function handleWaterAdd(amount) {
+    await addWaterMl(amount);
+    setFeedbackWater(amount);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    setTimeout(() => setFeedbackWater(null), 1500);
+  }
+
+  async function handleStepsAdd(amount) {
+    await addManualSteps(amount);
+    setFeedbackSteps(amount);
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+    setTimeout(() => setFeedbackSteps(null), 1500);
+  }
+
   function shiftDate(days) {
+    const fromDate = mealDate;
     const d = new Date(`${mealDate}T12:00:00`);
     d.setDate(d.getDate() + days);
     d.setHours(12, 0, 0, 0);
-    setMealDate(d.toISOString().slice(0, 10));
+    const toDate = d.toISOString().slice(0, 10);
+    trackEvent("date_changed", {
+      fromDate,
+      toDate,
+      direction: days > 0 ? "next" : "previous",
+    });
+    setMealDate(toDate);
   }
 
   // ── Nutrition values ──────────────────────────────────────────────────────
@@ -188,7 +222,7 @@ export default function DailyScreen() {
                 disabled={!mealText.trim() || isSavingMeal}
                 onPress={handleMealSave}
               >
-                <Text style={styles.saveMealBtnText}>Ekle</Text>
+                <Text style={styles.saveMealBtnText}>{feedbackMeal || "Ekle"}</Text>
               </Pressable>
             </View>
           </View>
@@ -214,7 +248,10 @@ export default function DailyScreen() {
               <Bar value={calorieCurrent} target={calorieTarget} color="#3f8a5f" />
             </View>
           ) : (
-            <Text style={styles.emptyText}>Bugün için öğün verisi yok.</Text>
+            <View style={styles.blockBody}>
+              <Text style={styles.emptyText}>Henüz öğün eklemedin.</Text>
+              <Text style={styles.subNote}>Yukarıdaki alandan yediklerini ekleyerek makro takibine başla.</Text>
+            </View>
           )}
         </Block>
 
@@ -236,17 +273,22 @@ export default function DailyScreen() {
               
               {!stepReady && (
                 <>
-                  <Text style={[styles.emptyText, { marginTop: 12, marginBottom: 8 }]}>
-                    Otomatik adım alınamadı. Manuel ekleyebilirsiniz.
-                  </Text>
+                  <View style={[styles.manualBanner, { marginTop: 12, marginBottom: 8 }]}>
+                    <Text style={styles.manualBannerTitle}>📱 Manuel takip aktif</Text>
+                    <Text style={styles.subNote}>
+                      Sağlık izni olmadan da adımlarını takip edebilirsin. Aşağıdan ekle, gün sonunda sayacın güncel kalsın.
+                    </Text>
+                  </View>
                   <View style={styles.waterButtons}>
                     {[500, 1000, 2000].map((amount) => (
                       <Pressable
                         key={amount}
                         style={styles.waterButton}
-                        onPress={() => addManualSteps(amount)}
+                        onPress={() => handleStepsAdd(amount)}
                       >
-                        <Text style={styles.waterButtonText}>+{amount}</Text>
+                        <Text style={styles.waterButtonText}>
+                          {feedbackSteps === amount ? "✓" : `+${amount}`}
+                        </Text>
                       </Pressable>
                     ))}
                   </View>
@@ -254,9 +296,16 @@ export default function DailyScreen() {
               )}
             </View>
           ) : (
-            <Text style={styles.emptyText}>
-              {stepPermission?.status === "pending" ? "İzin bekleniyor." : "Adım verisi yok."}
-            </Text>
+            <View style={styles.blockBody}>
+              <Text style={styles.emptyText}>
+                {stepPermission?.status === "pending" ? "Sağlık verisine erişim izni bekleniyor." : "Adım verisi yok."}
+              </Text>
+              <Text style={styles.subNote}>
+                {stepPermission?.status === "pending" 
+                  ? "Adım takibi için izin onayı gerekli." 
+                  : "Adımların henüz senkronize olmadı veya kaydedilmedi."}
+              </Text>
+            </View>
           )}
         </Block>
 
@@ -275,7 +324,10 @@ export default function DailyScreen() {
               ) : null}
             </View>
           ) : (
-            <Text style={styles.emptyText}>Bugün için uyku verisi yok.</Text>
+            <View style={styles.blockBody}>
+              <Text style={styles.emptyText}>Bugün için uyku verisi bulunamadı.</Text>
+              <Text style={styles.subNote}>Telefonunun sağlık uygulamasında kayıtlı olduğunda burada görünecek.</Text>
+            </View>
           )}
         </Block>
 
@@ -296,24 +348,29 @@ export default function DailyScreen() {
                   <Pressable
                     key={amount}
                     style={styles.waterButton}
-                    onPress={() => addWaterMl(amount)}
+                    onPress={() => handleWaterAdd(amount)}
                   >
-                    <Text style={styles.waterButtonText}>+{amount}ml</Text>
+                    <Text style={styles.waterButtonText}>
+                      {feedbackWater === amount ? "✓" : `+${amount}ml`}
+                    </Text>
                   </Pressable>
                 ))}
               </View>
             </View>
           ) : (
             <View style={styles.blockBody}>
-              <Text style={styles.emptyText}>Bugün için su verisi yok.</Text>
+              <Text style={styles.emptyText}>Bugün hiç su girmedin.</Text>
+              <Text style={[{marginBottom: 10}, styles.subNote]}>Aşağıdan içtiğin miktarı seçebilirsin:</Text>
               <View style={styles.waterButtons}>
                 {[200, 300, 500].map((amount) => (
                   <Pressable
                     key={amount}
                     style={styles.waterButton}
-                    onPress={() => addWaterMl(amount)}
+                    onPress={() => handleWaterAdd(amount)}
                   >
-                    <Text style={styles.waterButtonText}>+{amount}ml</Text>
+                    <Text style={styles.waterButtonText}>
+                      {feedbackWater === amount ? "✓" : `+${amount}ml`}
+                    </Text>
                   </Pressable>
                 ))}
               </View>
@@ -462,6 +519,19 @@ const styles = StyleSheet.create({
     color: "#9ab09e",
     fontSize: 14,
     lineHeight: 20,
+  },
+
+  // Manual tracking banner
+  manualBanner: {
+    backgroundColor: "#e8f0ea",
+    borderRadius: 12,
+    padding: 14,
+    gap: 4,
+  },
+  manualBannerTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#295c41",
   },
 
   // Water buttons

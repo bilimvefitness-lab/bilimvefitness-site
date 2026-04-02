@@ -19,8 +19,8 @@ export function resolveProblem({
   // 1 — Profile missing → block everything
   if (!hasProfile) {
     return {
-      text: "Sistemi başlatmak için profilini doldur.",
-      context: "Hedefler ve koç kişiselleşir.",
+      text: "Hoş geldin! İlk adım: Profilini oluştur.",
+      context: "Sana özel kalori, makro ve su hedeflerini tam isabetle belirleyebilmemiz için birkaç detaya ihtiyacımız var.",
       action: { label: "Profili Doldur", screen: "Profile" },
       priority: 0,
     };
@@ -40,6 +40,22 @@ export function resolveProblem({
         priority: 1,
       };
     }
+  }
+
+  // 2.5 — Zero Data Onboarding (they have a profile but haven't tracked a single thing today)
+  const hasNoData = 
+    (!proteinCurrent || proteinCurrent === 0) && 
+    (!calorieCurrent || calorieCurrent === 0) && 
+    (!hydrationData?.consumed_ml || hydrationData.consumed_ml === 0);
+
+  if (hasProfile && hasNoData && hour < 20) {
+    return {
+      text: "Bugün hedeflerine doğru ilk adımı at.",
+      context: "Kahvaltını yedin mi? Güne bir bardak su ile mi başladın? Hemen kaydet.",
+      action: { label: "Günlüğe Dön", screen: "Daily" },
+      quickAction: "water",
+      priority: 1.5,
+    };
   }
 
   // 3 — Calorie running too low (late in the day)
@@ -66,33 +82,32 @@ export function resolveProblem({
       text: "Bugün yeterli su içmedin.",
       context: `${liters}L kaldı.`,
       action: { label: "Su Ekle", screen: "Daily" },
+      quickAction: "water",
       priority: 3,
     };
   }
 
-  // 5 — Steps behind (after 17:00, permission granted)
+  // 5 — Steps behind (after 17:00, applies to both native and fallback manual users)
   const stepCount = Number(todaySteps?.stepCount ?? 0);
   const stepGoal = 10000;
   const stepsRemaining = stepGoal - stepCount;
-  if (
-    stepPermission?.status === "granted" &&
-    todaySteps?.available &&
-    stepsRemaining > 2000 &&
-    hour >= 17
-  ) {
+  const isStepPending = stepPermission?.status === "pending";
+
+  if (!isStepPending && stepsRemaining > 2000 && hour >= 17) {
     return {
       text: "Hedefinin gerisine düştün.",
       context: `${stepsRemaining.toLocaleString("tr-TR")} adım kaldı.`,
       action: { label: "Adımlarını Gör", screen: "Daily" },
+      quickAction: "steps",
       priority: 4,
     };
   }
 
-  // 6 — All clear
+  // 6 — All clear (meaning no urgency, profile exists, and they have SOME data logged)
   return {
-    text: "Bugün iyi gidiyor.",
-    context: "Planı bozmadan devam et.",
-    action: null,
+    text: "Her şey yolunda görünüyor 🎯",
+    context: "Şu ana kadar planı çok iyi takip ediyorsun. Motiveni koru!",
+    action: { label: "Günlüğü İncele", screen: "Daily" },
     priority: 5,
   };
 }

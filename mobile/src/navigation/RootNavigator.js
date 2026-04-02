@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Text } from "react-native";
 import { AppProvider } from "../context/AppContext";
 import HomeScreen from "../screens/HomeScreen";
@@ -7,6 +8,12 @@ import DailyScreen from "../screens/DailyScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+// Lazy-load debug screen only in dev
+const AnalyticsDebugScreen = __DEV__
+  ? require("../screens/AnalyticsDebugScreen").default
+  : null;
 
 const TAB_ICONS = { Home: "◉", Daily: "▤", Profile: "◎" };
 
@@ -46,13 +53,34 @@ function AppTabs() {
   );
 }
 
+function AppStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="MainTabs" component={AppTabs} />
+      {__DEV__ && AnalyticsDebugScreen ? (
+        <Stack.Screen
+          name="AnalyticsDebug"
+          component={AnalyticsDebugScreen}
+          options={{
+            headerShown: true,
+            title: "Analytics Debug",
+            presentation: "modal",
+            headerStyle: { backgroundColor: "#eef4e8" },
+            headerTintColor: "#295c41",
+          }}
+        />
+      ) : null}
+    </Stack.Navigator>
+  );
+}
+
 // Accepts (and ignores) old prop-drilling props from App.js — those are no-ops
 // until App.js is fully cleaned up.
 export default function RootNavigator({ navigationRef }) {
   return (
     <AppProvider>
       <NavigationContainer ref={navigationRef}>
-        <AppTabs />
+        <AppStack />
       </NavigationContainer>
     </AppProvider>
   );
