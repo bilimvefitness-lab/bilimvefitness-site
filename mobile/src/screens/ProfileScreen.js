@@ -1,6 +1,7 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Pressable, View, ActivityIndicator } from "react-native";
 import { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import * as Haptics from "expo-haptics";
 import { useApp } from "../context/AppContext";
 import { trackEvent } from "../utils/analytics";
 
@@ -88,6 +89,7 @@ export default function ProfileScreen() {
     setSaving(false);
     if (ok) {
       setSaved(true);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       setTimeout(() => setSaved(false), 2500);
     }
   }
@@ -114,14 +116,14 @@ export default function ProfileScreen() {
 
         {/* ── Save button ──────────────────────────────────────── */}
         <Pressable
-          style={[styles.saveButton, saving && styles.saveButtonDisabled]}
+          style={[styles.saveButton, saving && styles.saveButtonDisabled, saved && styles.saveButtonSuccess]}
           onPress={handleSave}
           disabled={saving}
         >
           {saving ? (
             <ActivityIndicator color="#ffffff" />
           ) : (
-            <Text style={styles.saveButtonText}>{saved ? "Kaydedildi ✓" : "Kaydet"}</Text>
+            <Text style={[styles.saveButtonText, saved && styles.saveButtonTextSuccess]}>{saved ? "Kaydedildi ✓" : "Kaydet"}</Text>
           )}
         </Pressable>
 
@@ -225,6 +227,12 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontSize: 16,
     fontWeight: "800",
+  },
+  saveButtonSuccess: {
+    backgroundColor: "#d8e9dc",
+  },
+  saveButtonTextSuccess: {
+    color: "#295c41",
   },
   errorText: {
     color: "#9d3636",

@@ -305,6 +305,24 @@ export function AppProvider({ children }) {
       setProfileState({ status: "hazır", feedback: "Profil yüklendi.", tone: "success" });
     } catch (error) {
       if (error?.status === 404) {
+        // Backend says no profile exists — check local fallback
+        const localRaw = await AsyncStorage.getItem(`fitness-notebook-mobile-profile-${resolvedUserId}`).catch(() => null);
+        if (localRaw) {
+          const local = JSON.parse(localRaw);
+          setHasProfile(true);
+          setProfileForm({
+            user_id: local.user_id,
+            weight_kg: String(local.weight_kg ?? ""),
+            height_cm: String(local.height_cm ?? ""),
+            age: String(local.age ?? ""),
+            gender: local.gender ?? "male",
+            activity_level: local.activity_level ?? "moderate",
+            training_frequency_per_week: String(local.training_frequency_per_week ?? "3"),
+            goal: local.goal ?? "maintenance",
+          });
+          setProfileState({ status: "hazır", feedback: "Yerel profil yüklendi.", tone: "success" });
+          return;
+        }
         setHasProfile(false);
         setGoals(null);
         setProfileState({
@@ -314,43 +332,83 @@ export function AppProvider({ children }) {
         });
         return;
       }
+
+      // Network / server error — try local fallback before showing error
+      const localRaw = await AsyncStorage.getItem(`fitness-notebook-mobile-profile-${resolvedUserId}`).catch(() => null);
+      if (localRaw) {
+        try {
+          const local = JSON.parse(localRaw);
+          setHasProfile(true);
+          setProfileForm({
+            user_id: local.user_id,
+            weight_kg: String(local.weight_kg ?? ""),
+            height_cm: String(local.height_cm ?? ""),
+            age: String(local.age ?? ""),
+            gender: local.gender ?? "male",
+            activity_level: local.activity_level ?? "moderate",
+            training_frequency_per_week: String(local.training_frequency_per_week ?? "3"),
+            goal: local.goal ?? "maintenance",
+          });
+          setProfileState({ status: "hazır", feedback: "Yerel profil yüklendi.", tone: "success" });
+          return;
+        } catch (_) {}
+      }
       setProfileState({ status: "Hata", feedback: uiErrorMessage(error), tone: "error" });
     }
   }
 
   async function saveProfile() {
     setProfileState({ status: "Kaydediliyor", feedback: "Güncelleniyor...", tone: "loading" });
+
+    // 1. Always persist locally first — this is the source of truth for offline-first
+    const localProfileData = {
+      user_id: userId,
+      weight_kg: Number(profileForm.weight_kg),
+      height_cm: Number(profileForm.height_cm),
+      age: Number(profileForm.age),
+      gender: profileForm.gender,
+      activity_level: profileForm.activity_level,
+      training_frequency_per_week: Number(profileForm.training_frequency_per_week),
+      goal: profileForm.goal,
+    };
+
+    try {
+      await AsyncStorage.setItem(
+        `fitness-notebook-mobile-profile-${userId}`,
+        JSON.stringify(localProfileData)
+      );
+    } catch (localErr) {
+      console.warn("[saveProfile] local save failed", localErr);
+      setProfileState({ status: "Hata", feedback: "Profil kaydedilemedi.", tone: "error" });
+      return false;
+    }
+
+    // 2. Local save succeeded → update app state immediately
+    setHasProfile(true);
+    setProfileState({ status: "hazır", feedback: "Kaydedildi.", tone: "success" });
+    trackEvent("profile_saved", { userId });
+
+    // 3. Best-effort backend sync — errors are logged, never shown to user
     try {
       const payload = await apiRequest("/user/profile", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: userId,
-          weight_kg: Number(profileForm.weight_kg),
-          height_cm: Number(profileForm.height_cm),
-          age: Number(profileForm.age),
-          gender: profileForm.gender,
-          activity_level: profileForm.activity_level,
-          training_frequency_per_week: Number(profileForm.training_frequency_per_week),
-          goal: profileForm.goal,
-        }),
+        body: JSON.stringify(localProfileData),
       });
-      setHasProfile(true);
-      setGoals(payload.goals);
+      if (payload?.goals) setGoals(payload.goals);
+
       const recalc = await apiRequest("/user/goals/recalculate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: userId }),
       });
       if (recalc?.goals) setGoals(recalc.goals);
-      setProfileState({ status: "hazır", feedback: "Kaydedildi.", tone: "success" });
-      trackEvent("profile_saved", { userId });
       await loadDailyPanels(userId, mealDate, true);
-      return true;
-    } catch (error) {
-      setProfileState({ status: "Hata", feedback: uiErrorMessage(error), tone: "error" });
-      return false;
+    } catch (syncErr) {
+      console.warn("[saveProfile] backend sync failed (offline-safe)", syncErr);
     }
+
+    return true;
   }
 
   async function loadDailyPanels(
