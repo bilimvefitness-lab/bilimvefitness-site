@@ -1,0 +1,138 @@
+{
+  "category": "mixed_clean_and_messy_input",
+  "cases": [
+    {
+      "id": "X01",
+      "input": "200 gr tavuk, 150 gr jasmine pirinc, 1 muz",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        { "canonical_display_name": "Tavuk Göğsü", "expected_weight_g": 200.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Beyaz Pirinç", "expected_weight_g": 150.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Muz", "expected_weight_g": 120.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X02",
+      "input": "2 yumurta, 100 gr lor, 1 kase pilav",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        { "canonical_display_name": "Yumurta", "expected_weight_g": 100.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Lor Peyniri", "expected_weight_g": 100.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Pirinç Pilavı", "expected_weight_g": 170.0, "confidence_level": "medium", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X03",
+      "input": "1 ölçek whey, 200 gr yogrt, 1 elma",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        { "canonical_display_name": "Whey Protein", "expected_weight_g": 32.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Yoğurt", "expected_weight_g": 200.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Elma", "expected_weight_g": 180.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X04",
+      "input": "200 gr tavuk gogsu, 1 tabak makarna, 1 kase mercmek corbasi",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        { "canonical_display_name": "Tavuk Göğsü", "expected_weight_g": 200.0, "confidence_level": "high", "needs_clarification": false },
+        {
+          "canonical_display_name": "Haşlanmış Makarna",
+          "expected_weight_g": 180.0,
+          "confidence_level": "low",
+          "needs_clarification": true,
+          "expected_fallback": { "type": "portion_sizes", "choices": ["Küçük", "Orta", "Büyük"] }
+        },
+        {
+          "canonical_display_name": "Mercimek Çorbası",
+          "expected_weight_g": 250.0,
+          "confidence_level": "low",
+          "needs_clarification": true,
+          "expected_fallback": { "type": "portion_sizes", "choices": ["Küçük", "Orta", "Büyük"] }
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X05",
+      "input": "150 gr hindi fume, 2 dilim ekmek, 1 bardak ayran",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        { "canonical_display_name": "Hindi Füme Şarküteri", "expected_weight_g": 150.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Beyaz Ekmek", "expected_weight_g": 60.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Ayran", "expected_weight_g": 200.0, "confidence_level": "medium", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X06",
+      "input": "250 gr ton, 1 tane muz, 40 gr badem",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        { "canonical_display_name": "Ton Balığı (Suda)", "expected_weight_g": 250.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Muz", "expected_weight_g": 120.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Badem", "expected_weight_g": 40.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X07",
+      "input": "3 adet yumurta, 0.2 kilo pilav, 100 gr yogurt",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        { "canonical_display_name": "Yumurta", "expected_weight_g": 150.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Pirinç Pilavı", "expected_weight_g": 200.0, "confidence_level": "high", "needs_clarification": false },
+        { "canonical_display_name": "Yoğurt", "expected_weight_g": 100.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X08",
+      "input": "1 kase yulaf, 1 scoop whey, 1 muz",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yulaf",
+          "expected_weight_g": 70.0,
+          "confidence_level": "low",
+          "needs_clarification": true,
+          "expected_fallback": { "type": "portion_sizes", "choices": ["Küçük", "Orta", "Büyük"] }
+        },
+        { "canonical_display_name": "Whey Protein", "expected_weight_g": 32.0, "confidence_level": "medium", "needs_clarification": false },
+        { "canonical_display_name": "Muz", "expected_weight_g": 120.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "X09",
+      "input": "100 gr lor, 150 gr jasmin pirc, 1 elma",
+      "expected_resolution": "food_choice_fallback",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        { "canonical_display_name": "Lor Peyniri", "expected_weight_g": 100.0, "confidence_level": "high", "needs_clarification": false },
+        {
+          "raw_food_name": "jasmin pirc",
+          "canonical_display_name": null,
+          "expected_weight_g": 150.0,
+          "confidence_level": "low",
+          "needs_clarification": true,
+          "expected_fallback": { "type": "food_choices", "choices": ["Beyaz Pirinç", "Pirinç Patlağı", "Basmati Pirinç"] }
+        },
+        { "canonical_display_name": "Elma", "expected_weight_g": 180.0, "confidence_level": "high", "needs_clarification": false }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    }
+  ]
+}

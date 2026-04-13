@@ -1,5 +1,6 @@
 import type { SleepDailySummary } from "../../domain/models/SleepDailySummary";
 import type { SleepSession } from "../../domain/models/SleepSession";
+import { getLocalDateString, parseToLocalDay } from "../../utils/sleepDay";
 
 export type SleepDayRange = {
   referenceDay: string;
@@ -19,19 +20,7 @@ function normalizeReferenceDate(referenceDay?: string | null) {
 }
 
 export function dayFromIso(value?: string | null) {
-  const normalized = String(value || "").trim();
-  if (!normalized) {
-    return null;
-  }
-  if (/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
-    return normalized;
-  }
-
-  const parsed = new Date(normalized);
-  if (Number.isNaN(parsed.getTime())) {
-    return null;
-  }
-  return parsed.toISOString().slice(0, 10);
+  return parseToLocalDay(value);
 }
 
 export function buildSleepDayRange(days = 14, referenceDay?: string | null): SleepDayRange {
@@ -45,11 +34,11 @@ export function buildSleepDayRange(days = 14, referenceDay?: string | null): Sle
   inclusiveEndDate.setHours(23, 59, 59, 999);
 
   return {
-    referenceDay: endDate.toISOString().slice(0, 10),
-    startDay: startDate.toISOString().slice(0, 10),
-    endDay: inclusiveEndDate.toISOString().slice(0, 10),
-    startAt: startDate.toISOString(),
-    endAt: inclusiveEndDate.toISOString(),
+    referenceDay: getLocalDateString(endDate),          // LOCAL date
+    startDay: getLocalDateString(startDate),            // LOCAL date
+    endDay: getLocalDateString(inclusiveEndDate),        // LOCAL date
+    startAt: startDate.toISOString(),                   // UTC ISO for health-source queries
+    endAt: inclusiveEndDate.toISOString(),              // UTC ISO for health-source queries
   };
 }
 

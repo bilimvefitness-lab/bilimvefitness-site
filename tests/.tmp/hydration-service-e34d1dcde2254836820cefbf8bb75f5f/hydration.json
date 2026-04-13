@@ -1,0 +1,44 @@
+{
+  "profiles": {
+    "hydration-test-user": {
+      "user_id": "hydration-test-user",
+      "weight_kg": 80.0,
+      "default_glass_ml": 250,
+      "target_mode": "auto",
+      "manual_target_ml": null,
+      "activity_adjustment_enabled": false,
+      "created_at": "2026-04-02T17:32:22.288687+00:00",
+      "updated_at": "2026-04-02T17:32:22.288687+00:00"
+    }
+  },
+  "reminder_settings": {},
+  "logs": [
+    {
+      "id": "5f2877ce-70c3-4ee2-9039-fc1b971cbb9f",
+      "user_id": "hydration-test-user",
+      "amount_ml": 500,
+      "source_unit": "glass",
+      "source_value": 2.0,
+      "logged_at": "2026-04-01T08:00:00+00:00",
+      "note": null
+    },
+    {
+      "id": "eb626fb0-a1ee-41f3-ab22-94a37f745d3c",
+      "user_id": "hydration-test-user",
+      "amount_ml": 1500,
+      "source_unit": "liter",
+      "source_value": 1.5,
+      "logged_at": "2026-04-01T10:00:00+00:00",
+      "note": null
+    },
+    {
+      "id": "6c22a3a7-cbdd-4a95-86b9-275e80d82b68",
+      "user_id": "hydration-test-user",
+      "amount_ml": 300,
+      "source_unit": "ml",
+      "source_value": 300.0,
+      "logged_at": "2026-04-01T12:00:00+00:00",
+      "note": null
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "profiles": {
+    "command-test-user": {
+      "user_id": "command-test-user",
+      "weight_kg": 80.0,
+      "default_glass_ml": 250,
+      "target_mode": "auto",
+      "manual_target_ml": null,
+      "activity_adjustment_enabled": false,
+      "created_at": "2026-04-01T20:33:46.808474+00:00",
+      "updated_at": "2026-04-01T20:33:46.808474+00:00"
+    }
+  },
+  "logs": [
+    {
+      "id": "5fcd5203-e4c6-463b-b3f2-fdad4f02bb42",
+      "user_id": "command-test-user",
+      "amount_ml": 2800,
+      "source_unit": "liter",
+      "source_value": 2.8,
+      "logged_at": "2026-03-29T12:00:00+03:00",
+      "note": null
+    }
+  ]
+}

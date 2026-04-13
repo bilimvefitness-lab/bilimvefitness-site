@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import { SleepSource } from "../../domain/models/SleepRawSegment";
+import { useLanguage } from "../../../../i18n";
 
-function labelForSource(source?: string | null) {
+function labelForSource(source?: string | null, manual = "Manuel", unknown = "Bilinmiyor") {
   if (source === SleepSource.APPLE_HEALTH) {
     return "Apple Health";
   }
@@ -10,9 +11,9 @@ function labelForSource(source?: string | null) {
     return "Health Connect";
   }
   if (source === SleepSource.MANUAL) {
-    return "Manuel";
+    return manual;
   }
-  return "Bilinmiyor";
+  return unknown;
 }
 
 function toneForSource(source?: string | null) {
@@ -29,9 +30,12 @@ function toneForSource(source?: string | null) {
 }
 
 export function SleepSourceBadge({ source }: { source?: string | null }) {
+  const { t } = useLanguage();
   return (
     <View style={[styles.badge, toneForSource(source)]}>
-      <Text style={styles.text}>{labelForSource(source)}</Text>
+      <Text style={styles.text}>
+        {labelForSource(source, t("sleep.source.manual"), t("sleep.source.unknown"))}
+      </Text>
     </View>
   );
 }

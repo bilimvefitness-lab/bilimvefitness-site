@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "mobile-2rvkrxa7": {
+      "user_id": "mobile-2rvkrxa7",
+      "weight_kg": 65.0,
+      "default_glass_ml": 250,
+      "target_mode": "auto",
+      "manual_target_ml": null,
+      "activity_adjustment_enabled": false,
+      "created_at": "2026-04-01T22:28:15.688249+00:00",
+      "updated_at": "2026-04-01T22:28:15.688249+00:00"
+    }
+  },
+  "logs": []
+}

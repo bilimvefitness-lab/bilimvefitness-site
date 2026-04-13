@@ -1,72 +1,73 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { SleepRepositoryStatus } from "../../domain/repository/SleepRepository";
+import { useLanguage } from "../../../../i18n";
 
 type SleepErrorStateProps = {
   status: string;
-  message: string;
   onPrimaryAction?: () => void;
   onSecondaryAction?: () => void;
 };
 
-function buildCopy(status: string, fallbackMessage: string) {
-  switch (status) {
-    case SleepRepositoryStatus.PERMISSION_DENIED:
-      return {
-        title: "Uyku izni kapali",
-        description: fallbackMessage || "Apple Health veya Health Connect uyku verisine erisim izni verilmedi.",
-        primaryLabel: "Izinleri Ac",
-        secondaryLabel: "Manuel Gir",
-      };
-    case SleepRepositoryStatus.SOURCE_NOT_INSTALLED:
-      return {
-        title: "Health Connect gerekli",
-        description: fallbackMessage || "Android cihazda Health Connect kurulu veya guncel degil.",
-        primaryLabel: "Ayarlar",
-        secondaryLabel: "Manuel Gir",
-      };
-    case SleepRepositoryStatus.SOURCE_NOT_AVAILABLE:
-      return {
-        title: "Cihaz desteklemiyor",
-        description: fallbackMessage || "Bu cihaz veya build otomatik uyku entegrasyonunu desteklemiyor.",
-        primaryLabel: "",
-        secondaryLabel: "Manuel Gir",
-      };
-    case SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE:
-      return {
-        title: "Son veri gosteriliyor",
-        description: fallbackMessage || "Yeni senkronizasyon tamamlanamadi, son cache korunuyor.",
-        primaryLabel: "Tekrar Dene",
-        secondaryLabel: "",
-      };
-    case SleepRepositoryStatus.PARTIAL_DATA:
-      return {
-        title: "Stage verisi eksik",
-        description: fallbackMessage || "Toplam uyku bulundu ancak REM/deep/core parcasi mevcut degil.",
-        primaryLabel: "",
-        secondaryLabel: "",
-      };
-    default:
-      return {
-        title: "Uyku verisi okunamadi",
-        description: fallbackMessage || "Uyku verisi okunurken beklenmeyen bir durum olustu.",
-        primaryLabel: "Tekrar Dene",
-        secondaryLabel: "Manuel Gir",
-      };
-  }
-}
-
 export function SleepErrorState({
   status,
-  message,
   onPrimaryAction,
   onSecondaryAction,
 }: SleepErrorStateProps) {
-  const copy = buildCopy(status, message);
+  const { t } = useLanguage();
+
+  function buildCopy() {
+    switch (status) {
+      case SleepRepositoryStatus.PERMISSION_DENIED:
+        return {
+          title:          t("sleep.error.permissionDenied.title"),
+          description:    t("sleep.error.permissionDenied.description"),
+          primaryLabel:   t("sleep.error.permissionDenied.primaryLabel"),
+          secondaryLabel: t("sleep.error.permissionDenied.secondaryLabel"),
+        };
+      case SleepRepositoryStatus.SOURCE_NOT_INSTALLED:
+        return {
+          title:          t("sleep.error.notInstalled.title"),
+          description:    t("sleep.error.notInstalled.description"),
+          primaryLabel:   t("sleep.error.notInstalled.primaryLabel"),
+          secondaryLabel: t("sleep.error.notInstalled.secondaryLabel"),
+        };
+      case SleepRepositoryStatus.SOURCE_NOT_AVAILABLE:
+        return {
+          title:          t("sleep.error.notAvailable.title"),
+          description:    t("sleep.error.notAvailable.description"),
+          primaryLabel:   t("sleep.error.notAvailable.primaryLabel"),
+          secondaryLabel: t("sleep.error.notAvailable.secondaryLabel"),
+        };
+      case SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE:
+        return {
+          title:          t("sleep.error.cacheOnly.title"),
+          description:    t("sleep.error.cacheOnly.description"),
+          primaryLabel:   t("sleep.error.cacheOnly.primaryLabel"),
+          secondaryLabel: t("sleep.error.cacheOnly.secondaryLabel"),
+        };
+      case SleepRepositoryStatus.PARTIAL_DATA:
+        return {
+          title:          t("sleep.error.partialData.title"),
+          description:    t("sleep.error.partialData.description"),
+          primaryLabel:   t("sleep.error.partialData.primaryLabel"),
+          secondaryLabel: t("sleep.error.partialData.secondaryLabel"),
+        };
+      default:
+        return {
+          title:          t("sleep.error.generic.title"),
+          description:    t("sleep.error.generic.description"),
+          primaryLabel:   t("sleep.error.generic.primaryLabel"),
+          secondaryLabel: t("sleep.error.generic.secondaryLabel"),
+        };
+    }
+  }
+
+  const copy = buildCopy();
 
   return (
     <View style={styles.card}>
-      <Text style={styles.eyebrow}>Durum</Text>
+      <Text style={styles.eyebrow}>{t("sleep.error.eyebrow")}</Text>
       <Text style={styles.title}>{copy.title}</Text>
       <Text style={styles.description}>{copy.description}</Text>
       <View style={styles.actions}>

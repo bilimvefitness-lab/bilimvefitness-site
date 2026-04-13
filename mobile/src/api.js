@@ -1,10 +1,74 @@
-const fallbackBaseUrl = "http://192.168.1.111:8000/api/v1";
+// src/api.js
+import { Platform } from "react-native";
+import * as Device from "expo-device";
+
+const getFallbackBaseUrl = () => {
+    if (Platform.OS === 'web') {
+        // Web preview — backend and frontend share the same machine
+        return "http://127.0.0.1:8001/api/v1";
+    }
+    if (Platform.OS === 'android') {
+        // Android emulator: 10.0.2.2 is the special alias that routes to the host machine
+        return "http://10.0.2.2:8001/api/v1";
+    }
+    // iOS simulator — localhost resolves to the Mac running the simulator
+    // Physical device — must set EXPO_PUBLIC_API_BASE_URL to LAN IP (e.g. http://192.168.1.5:8001/api/v1)
+    return "http://localhost:8001/api/v1";
+};
+
+const fallbackBaseUrl = getFallbackBaseUrl();
 const envBaseUrl = process.env.EXPO_PUBLIC_API_BASE_URL?.trim();
 
-export const API_BASE_URL = (envBaseUrl || fallbackBaseUrl).trim();
+let resolvedBaseUrl = (envBaseUrl || fallbackBaseUrl).trim();
+// Force loopback on Web if the env specifies a local network IP for mobile testing
+if (Platform.OS === 'web' && (resolvedBaseUrl.includes("192.168.") || resolvedBaseUrl.includes("10.0.") || resolvedBaseUrl.includes("localhost") || resolvedBaseUrl.includes("127.0.0.1"))) {
+    resolvedBaseUrl = "http://127.0.0.1:8001/api/v1";
+}
+
+export const API_BASE_URL = resolvedBaseUrl;
 export const API_BASE_SOURCE = envBaseUrl
   ? ".env / EXPO_PUBLIC_API_BASE_URL"
   : "mobile/src/api.js fallback";
+
+/**
+ * True when running on a real physical device (not a simulator/emulator) and
+ * EXPO_PUBLIC_API_BASE_URL has not been configured, leaving the fallback URL active.
+ *
+ * On a physical iOS device   → localhost resolves to the device itself, not the Mac.
+ * On a physical Android device → 10.0.2.2 is an emulator-only loopback alias; it
+ *   is unreachable from a real Android device.
+ *
+ * Device.isDevice (expo-device) is the authoritative physical/emulator flag:
+ *   true  → real hardware (iPhone, iPad, Android phone/tablet)
+ *   false → simulator or emulator
+ *
+ * Fallback: isDevice is treated as `true` when the value is unavailable so that
+ * the guard is conservative (may false-positive on unusual setups, never hides a
+ * real misconfiguration).
+ */
+const _isPhysical = Device.isDevice ?? true;
+
+export const IS_PHYSICAL_DEVICE_MISSING_CONFIG =
+  !envBaseUrl &&
+  _isPhysical &&
+  (
+    (Platform.OS === 'ios'     && API_BASE_URL.includes('localhost')) ||
+    (Platform.OS === 'android' && (API_BASE_URL.includes('10.0.2.2') || API_BASE_URL.includes('localhost')))
+  );
+
+/**
+ * Returns true when the resolved API base URL uses plain HTTP against a remote
+ * (non-loopback, non-LAN-simulator) host — a signal that transport is insecure.
+ */
+export function isInsecureTransport() {
+  const url = API_BASE_URL;
+  return (
+    url.startsWith('http://') &&
+    !url.includes('localhost') &&
+    !url.includes('127.0.0.1') &&
+    !url.includes('10.0.2.2')
+  );
+}
 
 const apiDebugListeners = new Set();
 const apiDebugState = {
@@ -149,10 +213,14 @@ export async function apiRequest(path, options = {}) {
       throw connectionError;
     }
     if (isLikelyWrongDeviceUrl(API_BASE_URL)) {
+      const errorMsg = Platform.OS === 'web' 
+        ? "API adresi (localhost) ulaşılamaz görünüyor. Backend çalışıyor mu?" 
+        : `DİKKAT: Mobil cihazda 'localhost' kullanıyorsun. Bilgisayarının LAN IP adresini (örn. 192.168.1.5) kullanman gerekir.`;
+        
       const connectionError = createConnectionError(
         path,
         "wrong_api_base_url",
-        "API adresi telefondan erişilemez görünüyor.",
+        errorMsg,
         error
       );
       emitApiDebug({

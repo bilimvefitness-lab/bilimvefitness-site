@@ -1,0 +1,31 @@
+{
+  "step-test-user": {
+    "2026-03-30": {
+      "user_id": "step-test-user",
+      "date": "2026-03-30",
+      "step_count": 4000,
+      "source": "manual",
+      "last_synced_at": "2026-04-01T20:31:08.383415+00:00",
+      "created_at": "2026-04-01T20:31:08.383415+00:00",
+      "updated_at": "2026-04-01T20:31:08.383415+00:00"
+    },
+    "2026-03-31": {
+      "user_id": "step-test-user",
+      "date": "2026-03-31",
+      "step_count": 8200,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-01T20:31:08.383415+00:00",
+      "created_at": "2026-04-01T20:31:08.383415+00:00",
+      "updated_at": "2026-04-01T20:31:08.383415+00:00"
+    },
+    "2026-04-01": {
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "step_count": 12600,
+      "source": "android_health_connect",
+      "last_synced_at": "2026-04-01T20:31:08.383415+00:00",
+      "created_at": "2026-04-01T20:31:08.383415+00:00",
+      "updated_at": "2026-04-01T20:31:08.383415+00:00"
+    }
+  }
+}

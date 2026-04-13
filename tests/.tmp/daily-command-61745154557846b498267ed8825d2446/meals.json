@@ -1,0 +1,37 @@
+[
+  {
+    "meal_id": "a3d2274f-ec93-41fd-a944-94a28afbd52d",
+    "user_id": "command-test-user",
+    "meal_type": "öğle yemeği",
+    "date": "2026-03-30",
+    "consumed_at": "2026-03-30T12:00:00+03:00",
+    "notes": null,
+    "items": [
+      {
+        "raw_text": "test item",
+        "canonical_food_id": "test-food",
+        "canonical_display_name": "Test Food",
+        "amount": 1,
+        "unit": "portion",
+        "estimated_weight_g": 100,
+        "estimated_weight_min_g": 100,
+        "estimated_weight_max_g": 100,
+        "portion_source": "test",
+        "user_history_samples": 1,
+        "confidence_level": "high",
+        "confidence_score": 0.99,
+        "kcal": 2900,
+        "protein_g": 150,
+        "carbs_g": 0,
+        "fat_g": 0,
+        "preparation_method": null,
+        "modifiers": []
+      }
+    ],
+    "total_kcal": 2900,
+    "total_protein_g": 150,
+    "total_carbs_g": 0,
+    "total_fat_g": 0,
+    "created_at": "2026-03-30T12:00:00+03:00"
+  }
+]

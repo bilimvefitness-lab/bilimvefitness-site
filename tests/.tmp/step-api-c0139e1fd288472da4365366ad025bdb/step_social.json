@@ -1,0 +1,46 @@
+{
+  "groups": {
+    "group-3176037ab4": {
+      "group_id": "group-3176037ab4",
+      "name": "Alpha",
+      "invite_code": "ERCC928F",
+      "max_members": 5,
+      "members": [
+        {
+          "user_id": "owner-user",
+          "display_name": "Owner",
+          "joined_at": "2026-04-02T17:35:46.733714+00:00"
+        },
+        {
+          "user_id": "friend-user",
+          "display_name": "Friend",
+          "joined_at": "2026-04-02T17:35:46.779943+00:00"
+        }
+      ],
+      "created_at": "2026-04-02T17:35:46.733714+00:00",
+      "updated_at": "2026-04-02T17:35:46.779943+00:00"
+    },
+    "group-d6378de489": {
+      "group_id": "group-d6378de489",
+      "name": "Beta",
+      "invite_code": "ER7FD6D4",
+      "max_members": 5,
+      "members": [
+        {
+          "user_id": "other-owner",
+          "display_name": "Other",
+          "joined_at": "2026-04-02T17:35:46.740375+00:00"
+        }
+      ],
+      "created_at": "2026-04-02T17:35:46.740375+00:00",
+      "updated_at": "2026-04-02T17:35:46.740375+00:00"
+    }
+  },
+  "memberships": {
+    "owner-user": "group-3176037ab4",
+    "other-owner": "group-d6378de489",
+    "friend-user": "group-3176037ab4"
+  },
+  "challenges": {},
+  "duels": {}
+}

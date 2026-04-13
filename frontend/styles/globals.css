@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-shell bg-hero-radial text-ink font-sans antialiased;
+}
+
+::selection {
+  @apply bg-accent/30 text-ink;
+}
+
+.surface-grid {
+  background-image:
+    linear-gradient(to right, rgba(32, 51, 77, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(32, 51, 77, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.section-rule {
+  @apply border-t border-line/10;
+}

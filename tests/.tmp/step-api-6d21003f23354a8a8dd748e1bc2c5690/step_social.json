@@ -1,0 +1,65 @@
+{
+  "groups": {
+    "group-d8d0bb07dd": {
+      "group_id": "group-d8d0bb07dd",
+      "name": "Prime Squad",
+      "invite_code": "ER586394",
+      "max_members": 5,
+      "members": [
+        {
+          "user_id": "step-test-user",
+          "display_name": "Emre",
+          "joined_at": "2026-04-02T17:32:08.789838+00:00"
+        },
+        {
+          "user_id": "friend-user",
+          "display_name": "Ahmet",
+          "joined_at": "2026-04-02T17:32:08.807221+00:00"
+        }
+      ],
+      "created_at": "2026-04-02T17:32:08.789838+00:00",
+      "updated_at": "2026-04-02T17:32:08.807221+00:00"
+    }
+  },
+  "memberships": {
+    "step-test-user": "group-d8d0bb07dd",
+    "friend-user": "group-d8d0bb07dd"
+  },
+  "challenges": {
+    "step-test-user": {
+      "2026-04-01-daily": {
+        "challenge_id": "2026-04-01-daily",
+        "user_id": "step-test-user",
+        "date": "2026-04-01",
+        "type": "daily_mission",
+        "title": "Bugunun gorevi",
+        "target_value": 1,
+        "progress_value": 1,
+        "completed": true,
+        "status": "completed",
+        "badge_key": "daily_closer",
+        "reward_label": "Gunluk kapatici",
+        "streak_guarded": true,
+        "created_at": "2026-04-02T17:32:08.811455+00:00",
+        "updated_at": "2026-04-02T17:32:08.811455+00:00"
+      }
+    }
+  },
+  "duels": {
+    "duel-220b28cca4": {
+      "duel_id": "duel-220b28cca4",
+      "group_id": "group-d8d0bb07dd",
+      "date": "2026-04-01",
+      "challenger_user_id": "step-test-user",
+      "challenger_name": "Emre",
+      "opponent_user_id": "friend-user",
+      "opponent_name": "Ahmet",
+      "challenger_steps": 9600,
+      "opponent_steps": 8300,
+      "status": "won",
+      "winner_user_id": "step-test-user",
+      "created_at": "2026-04-02T17:32:08.822850+00:00",
+      "updated_at": "2026-04-02T17:32:08.866615+00:00"
+    }
+  }
+}

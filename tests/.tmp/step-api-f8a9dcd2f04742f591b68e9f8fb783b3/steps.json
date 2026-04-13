@@ -1,0 +1,22 @@
+{
+  "step-test-user": {
+    "2026-03-31": {
+      "user_id": "step-test-user",
+      "date": "2026-03-31",
+      "step_count": 6100,
+      "source": "manual",
+      "last_synced_at": "2026-04-01T19:46:59.319606+00:00",
+      "created_at": "2026-04-01T19:46:59.319606+00:00",
+      "updated_at": "2026-04-01T19:46:59.319606+00:00"
+    },
+    "2026-04-01": {
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "step_count": 9200,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-01T19:46:59.319606+00:00",
+      "created_at": "2026-04-01T19:46:59.319606+00:00",
+      "updated_at": "2026-04-01T19:46:59.319606+00:00"
+    }
+  }
+}

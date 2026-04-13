@@ -1,0 +1,112 @@
+[
+  {
+    "user_id": "mobile-validation-user",
+    "canonical_food_id": "rice_pilaf",
+    "unit": "kase",
+    "modifiers_key": "orta",
+    "average_weight_g": 170.0,
+    "sample_count": 1,
+    "min_observed_weight_g": 170.0,
+    "max_observed_weight_g": 170.0,
+    "last_updated_at": "2026-04-01T02:54:37.151774+00:00"
+  },
+  {
+    "user_id": "mobile-validation-user-2",
+    "canonical_food_id": "rice_pilaf",
+    "unit": "kase",
+    "modifiers_key": "orta",
+    "average_weight_g": 170.0,
+    "sample_count": 1,
+    "min_observed_weight_g": 170.0,
+    "max_observed_weight_g": 170.0,
+    "last_updated_at": "2026-04-01T02:55:58.551766+00:00"
+  },
+  {
+    "user_id": "behavior-23a08278",
+    "canonical_food_id": "egg_whole",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 50.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 50.0,
+    "max_observed_weight_g": 50.0,
+    "last_updated_at": "2026-04-01T03:22:32.425490+00:00"
+  },
+  {
+    "user_id": "behavior-23a08278",
+    "canonical_food_id": "banana",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 120.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 120.0,
+    "max_observed_weight_g": 120.0,
+    "last_updated_at": "2026-04-01T03:22:32.427834+00:00"
+  },
+  {
+    "user_id": "behavior-2db12ebb",
+    "canonical_food_id": "egg_whole",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 50.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 50.0,
+    "max_observed_weight_g": 50.0,
+    "last_updated_at": "2026-04-01T03:23:39.282694+00:00"
+  },
+  {
+    "user_id": "behavior-2db12ebb",
+    "canonical_food_id": "banana",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 120.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 120.0,
+    "max_observed_weight_g": 120.0,
+    "last_updated_at": "2026-04-01T03:23:39.284285+00:00"
+  },
+  {
+    "user_id": "mobile-2rvkrxa7",
+    "canonical_food_id": "egg_whole",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 50.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 50.0,
+    "max_observed_weight_g": 50.0,
+    "last_updated_at": "2026-04-02T12:01:16.207968+00:00"
+  },
+  {
+    "user_id": "mobile-2rvkrxa7",
+    "canonical_food_id": "banana",
+    "unit": "adet",
+    "modifiers_key": "-",
+    "average_weight_g": 120.0,
+    "sample_count": 2,
+    "min_observed_weight_g": 120.0,
+    "max_observed_weight_g": 120.0,
+    "last_updated_at": "2026-04-01T09:07:04.719040+00:00"
+  },
+  {
+    "user_id": "mobile-2rvkrxa7",
+    "canonical_food_id": "yogurt_plain",
+    "unit": "kase",
+    "modifiers_key": "büyük",
+    "average_weight_g": 225.0,
+    "sample_count": 1,
+    "min_observed_weight_g": 225.0,
+    "max_observed_weight_g": 225.0,
+    "last_updated_at": "2026-04-01T09:04:14.672618+00:00"
+  },
+  {
+    "user_id": "mobile-2rvkrxa7",
+    "canonical_food_id": "corn_boiled",
+    "unit": "kase",
+    "modifiers_key": "orta",
+    "average_weight_g": 100.0,
+    "sample_count": 1,
+    "min_observed_weight_g": 100.0,
+    "max_observed_weight_g": 100.0,
+    "last_updated_at": "2026-04-01T09:07:04.723214+00:00"
+  }
+]

@@ -6,6 +6,20 @@ import {
   type SleepRepository,
   type SleepRepositoryResult,
 } from "../../domain/repository/SleepRepository";
+import { buildSleepInsightSnapshot } from "../../domain/services/SleepInsightEngine";
+import { useLanguage } from "../../../../i18n";
+
+type SavedResult = {
+  durationMinutes: number | null;
+  shortStatus: string;
+  firstInsight: string | null;
+};
+
+function formatSleepDuration(minutes: number, hourAbbr: string, minAbbr: string): string {
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  return m > 0 ? `${h}${hourAbbr} ${m}${minAbbr}` : `${h}${hourAbbr}`;
+}
 
 function toLocalInput(date: Date) {
   const year = date.getFullYear();
@@ -47,6 +61,7 @@ export function SleepManualEntryScreen({
   userId?: string | null;
   onSaved?: (result: SleepRepositoryResult) => void;
 }) {
+  const { t } = useLanguage();
   const repositoryRef = useRef(repository || createSleepRepository());
   const repo = repository || repositoryRef.current;
   const [bedtime, setBedtime] = useState(defaultBedtime());
@@ -56,13 +71,13 @@ export function SleepManualEntryScreen({
   const [notes, setNotes] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const helperText = "Format: YYYY-MM-DD HH:MM. Ornek: 2026-04-01 23:15";
+  const [savedResult, setSavedResult] = useState<SavedResult | null>(null);
 
   async function handleSave() {
     const bedtimeIso = parseLocalInput(bedtime);
     const wakeTimeIso = parseLocalInput(wakeTime);
     if (!bedtimeIso || !wakeTimeIso) {
-      setMessage("Yatis ve kalkis zamani gecerli formatta olmali.");
+      setMessage(t("sleep.manual.invalidFormat"));
       return;
     }
 
@@ -78,10 +93,27 @@ export function SleepManualEntryScreen({
         },
         { userId }
       );
-      setMessage(result.message);
+      // Build structured result display from saved summary + insight engine.
+      const snapshot = result.summary ? buildSleepInsightSnapshot(result.summary) : null;
+      setSavedResult({
+        durationMinutes: result.summary?.totalSleepMinutes ?? null,
+        shortStatus: snapshot
+          ? t("sleep.insight." + snapshot.shortStatusCode + ".title")
+          : t("sleep.repo." + result.messageCode),
+        firstInsight: result.insights?.[0]
+          ? t("sleep.insight." + result.insights[0].type + ".message", result.insights[0].meta as Record<string, string | number>)
+          : null,
+      });
+      setMessage(t("sleep.repo." + result.messageCode));
       onSaved?.(result);
     } catch (error) {
-      setMessage(String((error as Error)?.message || "Manuel uyku girisi kaydedilemedi."));
+      const code = String((error as Error)?.message || "");
+      const validCodes = ["INVALID_DATETIME", "WAKE_BEFORE_BEDTIME", "DURATION_TOO_SHORT", "DURATION_TOO_LONG", "QUALITY_OUT_OF_RANGE"];
+      if (validCodes.includes(code)) {
+        setMessage(t(`sleep.manual.validation.${code}`));
+      } else {
+        setMessage(t("sleep.manual.saveFailed"));
+      }
     } finally {
       setSubmitting(false);
     }
@@ -90,27 +122,25 @@ export function SleepManualEntryScreen({
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
       <View style={styles.card}>
-        <Text style={styles.eyebrow}>Manuel Kayit</Text>
-        <Text style={styles.title}>Uyku girisini sen ekle</Text>
-        <Text style={styles.description}>
-          Saglik kaynagi yoksa veya eksikse, manuel kayit dusuk guven seviyesiyle korunur.
-        </Text>
+        <Text style={styles.eyebrow}>{t("sleep.manual.eyebrow")}</Text>
+        <Text style={styles.title}>{t("sleep.manual.title")}</Text>
+        <Text style={styles.description}>{t("sleep.manual.description")}</Text>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Yatis saati</Text>
+          <Text style={styles.label}>{t("sleep.manual.bedtime")}</Text>
           <TextInput value={bedtime} onChangeText={setBedtime} style={styles.input} />
-          <Text style={styles.helper}>{helperText}</Text>
+          <Text style={styles.helper}>{t("sleep.manual.helperText")}</Text>
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Kalkis saati</Text>
+          <Text style={styles.label}>{t("sleep.manual.wakeTime")}</Text>
           <TextInput value={wakeTime} onChangeText={setWakeTime} style={styles.input} />
-          <Text style={styles.helper}>{helperText}</Text>
+          <Text style={styles.helper}>{t("sleep.manual.helperText")}</Text>
         </View>
 
         <View style={styles.row}>
           <View style={[styles.field, styles.rowField]}>
-            <Text style={styles.label}>Gece uyanma sayisi</Text>
+            <Text style={styles.label}>{t("sleep.manual.awakenings")}</Text>
             <TextInput
               value={awakenings}
               onChangeText={setAwakenings}
@@ -119,7 +149,7 @@ export function SleepManualEntryScreen({
             />
           </View>
           <View style={[styles.field, styles.rowField]}>
-            <Text style={styles.label}>Kalite (1-5)</Text>
+            <Text style={styles.label}>{t("sleep.manual.quality")}</Text>
             <TextInput
               value={quality}
               onChangeText={setQuality}
@@ -130,7 +160,7 @@ export function SleepManualEntryScreen({
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Not</Text>
+          <Text style={styles.label}>{t("sleep.manual.notes")}</Text>
           <TextInput
             value={notes}
             onChangeText={setNotes}
@@ -139,10 +169,25 @@ export function SleepManualEntryScreen({
           />
         </View>
 
-        {message ? <Text style={styles.message}>{message}</Text> : null}
+        {savedResult ? (
+          <View style={styles.resultCard}>
+            <Text style={styles.resultEyebrow}>{t("sleep.manual.savedEyebrow")}</Text>
+            {savedResult.durationMinutes != null && (
+              <Text style={styles.resultDuration}>
+                {formatSleepDuration(savedResult.durationMinutes, t("sleep.hourAbbr"), t("sleep.minAbbr"))}
+              </Text>
+            )}
+            <Text style={styles.resultStatus}>{savedResult.shortStatus}</Text>
+            {savedResult.firstInsight ? (
+              <Text style={styles.resultInsight}>{savedResult.firstInsight}</Text>
+            ) : null}
+          </View>
+        ) : message ? (
+          <Text style={styles.message}>{message}</Text>
+        ) : null}
 
         <Pressable onPress={handleSave} style={styles.button} disabled={submitting}>
-          <Text style={styles.buttonText}>{submitting ? "Kaydediliyor..." : "Kaydi Kaydet"}</Text>
+          <Text style={styles.buttonText}>{submitting ? t("sleep.manual.saving") : t("sleep.manual.save")}</Text>
         </Pressable>
       </View>
     </ScrollView>
@@ -216,6 +261,37 @@ const styles = StyleSheet.create({
   },
   message: {
     color: "#23412b",
+    lineHeight: 20,
+  },
+  resultCard: {
+    backgroundColor: "#eef4e8",
+    borderRadius: 16,
+    padding: 16,
+    gap: 6,
+    borderWidth: 1,
+    borderColor: "#c8ddc9",
+  },
+  resultEyebrow: {
+    color: "#59705e",
+    fontSize: 11,
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+  },
+  resultDuration: {
+    color: "#14301f",
+    fontSize: 28,
+    fontWeight: "900",
+    letterSpacing: -0.5,
+  },
+  resultStatus: {
+    color: "#295c41",
+    fontSize: 15,
+    fontWeight: "800",
+  },
+  resultInsight: {
+    color: "#567059",
+    fontSize: 14,
     lineHeight: 20,
   },
   button: {

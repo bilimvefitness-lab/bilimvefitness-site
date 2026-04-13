@@ -1,0 +1,76 @@
+{
+  "push_tokens": {
+    "step-test-user": {
+      "device-step-user": {
+        "user_id": "step-test-user",
+        "expo_push_token": "ExponentPushToken[test-token]",
+        "platform": "ios",
+        "device_id": "device-step-user",
+        "enabled": true,
+        "created_at": "2026-04-02T17:32:08.748845+00:00",
+        "updated_at": "2026-04-02T17:32:08.748845+00:00"
+      }
+    }
+  },
+  "events": {
+    "evt-9fdf1f50b71a": {
+      "event_id": "evt-9fdf1f50b71a",
+      "dedupe_key": "2026-04-01:became_group_leader:group-4e40ee7a75:friend-user:9100",
+      "user_id": "friend-user",
+      "date": "2026-04-01",
+      "type": "became_group_leader",
+      "title": "Grubunda lider oldun",
+      "body": "Tablonun tepesine ciktin. Bu ritmi koru.",
+      "data": {
+        "group_id": "group-4e40ee7a75",
+        "focus": "social",
+        "rank": 1,
+        "step_count": 9100
+      },
+      "push_sent": false,
+      "created_at": "2026-04-02T17:32:08.759846+00:00",
+      "updated_at": "2026-04-02T17:32:08.759846+00:00"
+    },
+    "evt-b85b4fc66b82": {
+      "event_id": "evt-b85b4fc66b82",
+      "dedupe_key": "2026-04-01:passed_by_friend:group-4e40ee7a75:step-test-user:1->2:friend-user",
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "type": "passed_by_friend",
+      "title": "Ahmet seni gecti",
+      "body": "Grubunda 2. siradasin. Kisa bir yuruyusle farki kapat.",
+      "data": {
+        "group_id": "group-4e40ee7a75",
+        "focus": "social",
+        "rank": 2,
+        "step_count": 7500,
+        "friend_user_id": "friend-user"
+      },
+      "push_sent": true,
+      "created_at": "2026-04-02T17:32:08.760939+00:00",
+      "updated_at": "2026-04-02T17:32:08.762138+00:00"
+    }
+  },
+  "event_keys": {
+    "2026-04-01:became_group_leader:group-4e40ee7a75:friend-user:9100": "evt-9fdf1f50b71a",
+    "2026-04-01:passed_by_friend:group-4e40ee7a75:step-test-user:1->2:friend-user": "evt-b85b4fc66b82"
+  },
+  "group_rank_snapshots": {
+    "group-4e40ee7a75:2026-04-01": {
+      "updated_at": "2026-04-02T17:32:08.770037+00:00",
+      "members": {
+        "friend-user": {
+          "rank": 1,
+          "step_count": 9100,
+          "display_name": "Ahmet"
+        },
+        "step-test-user": {
+          "rank": 2,
+          "step_count": 7500,
+          "display_name": "Emre"
+        }
+      }
+    }
+  },
+  "duel_snapshots": {}
+}

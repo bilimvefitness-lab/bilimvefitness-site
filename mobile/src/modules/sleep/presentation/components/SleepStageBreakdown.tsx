@@ -1,25 +1,30 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import type { SleepDailySummary } from "../../domain/models/SleepDailySummary";
-
-function buildStageRows(summary: SleepDailySummary) {
-  return [
-    { key: "rem", label: "REM", value: summary.remMinutes ?? null, color: "#5e88ff" },
-    { key: "core", label: "Core", value: summary.coreMinutes ?? null, color: "#4db091" },
-    { key: "deep", label: "Deep", value: summary.deepMinutes ?? null, color: "#274f8b" },
-    { key: "awake", label: "Awake", value: summary.awakeMinutes ?? null, color: "#d49c4d" },
-  ].filter((item) => item.value != null && Number(item.value) > 0);
-}
-
-function formatMinutes(value: number) {
-  const normalized = Math.max(Math.round(Number(value || 0)), 0);
-  const hours = Math.floor(normalized / 60);
-  const minutes = normalized % 60;
-  return `${hours}s ${minutes}dk`;
-}
+import { useLanguage } from "../../../../i18n";
 
 export function SleepStageBreakdown({ summary }: { summary: SleepDailySummary }) {
-  const rows = buildStageRows(summary);
+  const { t } = useLanguage();
+  const hourAbbr = t("sleep.hourAbbr");
+  const minAbbr  = t("sleep.minAbbr");
+
+  function buildStageRows() {
+    return [
+      { key: "rem",   label: t("sleep.stage.rem"),   value: summary.remMinutes   ?? null, color: "#5e88ff" },
+      { key: "core",  label: t("sleep.stage.core"),  value: summary.coreMinutes  ?? null, color: "#4db091" },
+      { key: "deep",  label: t("sleep.stage.deep"),  value: summary.deepMinutes  ?? null, color: "#274f8b" },
+      { key: "awake", label: t("sleep.stage.awake"), value: summary.awakeMinutes ?? null, color: "#d49c4d" },
+    ].filter((item) => item.value != null && Number(item.value) > 0);
+  }
+
+  function formatMinutes(value: number) {
+    const normalized = Math.max(Math.round(Number(value || 0)), 0);
+    const hours      = Math.floor(normalized / 60);
+    const minutes    = normalized % 60;
+    return `${hours}${hourAbbr} ${minutes}${minAbbr}`;
+  }
+
+  const rows = buildStageRows();
   if (!summary.isStageDataAvailable || !rows.length) {
     return null;
   }
@@ -27,7 +32,7 @@ export function SleepStageBreakdown({ summary }: { summary: SleepDailySummary })
   const total = rows.reduce((accumulator, item) => accumulator + Number(item.value || 0), 0);
   return (
     <View style={styles.card}>
-      <Text style={styles.title}>Stage Dagilimi</Text>
+      <Text style={styles.title}>{t("sleep.stage.title")}</Text>
       {rows.map((row) => {
         const width = (total > 0 ? `${Math.max((Number(row.value || 0) / total) * 100, 8)}%` : "8%") as any;
         return (

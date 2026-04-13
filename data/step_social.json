@@ -1,0 +1,41 @@
+{
+  "groups": {},
+  "memberships": {},
+  "challenges": {
+    "mobile-2rvkrxa7": {
+      "2026-04-02-daily-mission": {
+        "challenge_id": "2026-04-02-daily-mission",
+        "user_id": "mobile-2rvkrxa7",
+        "date": "2026-04-02",
+        "type": "daily_mission",
+        "title": "Minimum 4100 adim topla",
+        "target_value": 4100,
+        "progress_value": 757,
+        "completed": false,
+        "status": "at_risk",
+        "badge_key": "daily_closer",
+        "reward_label": "Gunluk kapatici",
+        "streak_guarded": false,
+        "created_at": "2026-04-02T17:34:36.921564+00:00",
+        "updated_at": "2026-04-02T20:48:51.555468+00:00"
+      },
+      "2026-04-02-seven-day": {
+        "challenge_id": "2026-04-02-seven-day",
+        "user_id": "mobile-2rvkrxa7",
+        "date": "2026-04-02",
+        "type": "seven_day",
+        "title": "7 Gun Hareket Challenge",
+        "target_value": 7,
+        "progress_value": 4,
+        "completed": false,
+        "status": "failed",
+        "badge_key": "week_runner",
+        "reward_label": "Haftalik seri acik",
+        "streak_guarded": true,
+        "created_at": "2026-04-02T17:34:36.925448+00:00",
+        "updated_at": "2026-04-02T20:48:51.559061+00:00"
+      }
+    }
+  },
+  "duels": {}
+}

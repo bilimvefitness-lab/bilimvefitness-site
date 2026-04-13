@@ -1,0 +1,27 @@
+{
+  "push_tokens": {},
+  "events": {
+    "evt-cbf03bd37d9a": {
+      "event_id": "evt-cbf03bd37d9a",
+      "dedupe_key": "2026-04-02:streak_at_risk:mobile-2rvkrxa7:2026-04-02-daily-mission",
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-04-02",
+      "type": "streak_at_risk",
+      "title": "Streak riskte",
+      "body": "Minimum 4000 adim topla geride kaldi. Kisa bir blokla yeniden ac.",
+      "data": {
+        "challenge_id": "2026-04-02-daily-mission",
+        "streak_guarded": false,
+        "focus": "challenge"
+      },
+      "push_sent": false,
+      "created_at": "2026-04-02T17:34:36.923321+00:00",
+      "updated_at": "2026-04-02T17:34:36.923321+00:00"
+    }
+  },
+  "event_keys": {
+    "2026-04-02:streak_at_risk:mobile-2rvkrxa7:2026-04-02-daily-mission": "evt-cbf03bd37d9a"
+  },
+  "group_rank_snapshots": {},
+  "duel_snapshots": {}
+}

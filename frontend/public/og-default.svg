@@ -1,0 +1,17 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F3F5F7"/>
+  <rect x="36" y="36" width="1128" height="558" rx="34" fill="#0F1E33"/>
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="url(#paint0_linear_1_2)" stroke="rgba(255,255,255,0.08)"/>
+  <text x="112" y="194" fill="rgba(255,255,255,0.54)" font-family="Georgia, 'Times New Roman', serif" font-size="22" letter-spacing="5.4">BILIM VE FITNESS</text>
+  <text x="112" y="304" fill="white" font-family="Georgia, 'Times New Roman', serif" font-size="76" font-weight="700">Bilimsel fitness icin</text>
+  <text x="112" y="390" fill="white" font-family="Georgia, 'Times New Roman', serif" font-size="76" font-weight="700">kurulan net yon merkezi.</text>
+  <text x="112" y="472" fill="rgba(255,255,255,0.7)" font-family="Arial, Helvetica, sans-serif" font-size="28">
+    Sistem, test, kitap, uygulama ve yazi katmanlari ayni omurgada bulusur.
+  </text>
+  <defs>
+    <linearGradient id="paint0_linear_1_2" x1="104" y1="96" x2="1078" y2="534" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11253E"/>
+      <stop offset="1" stop-color="#0C1728"/>
+    </linearGradient>
+  </defs>
+</svg>

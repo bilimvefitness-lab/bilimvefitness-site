@@ -38,124 +38,111 @@ function buildScreenState(stepState, permissionStatus, manualMode) {
   return "permission_pending";
 }
 
+// Returns { code, meta } — no language strings.
 function buildPrimeMessage({ steps, goalSteps, remainingSteps, hoursLeft, now }) {
   if (remainingSteps <= 0) {
-    return "Hedef tamam. Istersen bonus adimlar ekleyebilirsin.";
+    return { code: "prime_goal_done", meta: {} };
   }
   if (steps <= 0) {
-    return "Bugun yavas basladin. Ilk 500 adimla ritmi ac.";
+    return { code: "prime_no_steps", meta: {} };
   }
   if (steps < 3000) {
-    return "Baslangic yapildi. Biraz daha tempo lazim.";
+    return { code: "prime_slow", meta: {} };
   }
   if (steps < goalSteps) {
     if (now.getHours() >= 21) {
-      return "Az kaldi. Son bir kisa yuruyusle hedef kapanir.";
+      return { code: "prime_evening_close", meta: {} };
     }
-    return "Iyi gidiyorsun. Hedef yakin.";
+    return { code: "prime_on_track", meta: {} };
   }
   if (steps >= goalSteps && steps < goalSteps + 2000) {
-    return "Hedef tamam. Istersen bugunu bonus adimlarla guclendir.";
+    return { code: "prime_goal_done_bonus", meta: {} };
   }
-  return "Bugun guclu gidiyorsun. Ritmi koru, suyu geciktirme.";
+  return { code: "prime_strong", meta: {} };
 }
 
+// Returns { steps, messageCode, messageMeta } — no language strings.
 function buildSuggestedSteps({ remainingSteps, hoursLeft, now }) {
   if (remainingSteps <= 0) {
-    return {
-      steps: 500,
-      message: "Istersen bonus icin 500 adimlik kisa bir tur ekleyebilirsin.",
-    };
+    return { steps: 500, messageCode: "suggested_bonus", messageMeta: {} };
   }
 
   if (now.getHours() < 18) {
     const suggestion = Math.min(remainingSteps, Math.max(500, roundToHundreds(remainingSteps * 0.45)));
-    return {
-      steps: suggestion,
-      message: `Aksamdan once en az ${suggestion} adim ekle.`,
-    };
+    return { steps: suggestion, messageCode: "suggested_morning", messageMeta: { suggestion } };
   }
 
   if (now.getHours() < 21) {
     const suggestion = Math.min(remainingSteps, Math.max(700, roundToHundreds(remainingSteps * 0.7)));
-    return {
-      steps: suggestion,
-      message: `Bugunu kurtarmak icin en az ${suggestion} adim daha gerekli.`,
-    };
+    return { steps: suggestion, messageCode: "suggested_evening", messageMeta: { suggestion } };
   }
 
   return {
     steps: remainingSteps,
-    message:
-      hoursLeft <= 1.5
-        ? `${remainingSteps} adimlik son bir tur bugunu kapatir.`
-        : `${remainingSteps} adimi kalan saatlere bol ve kapanisi yap.`,
+    messageCode: hoursLeft <= 1.5 ? "suggested_deadline_short" : "suggested_deadline_spread",
+    messageMeta: { remaining: remainingSteps },
   };
 }
 
+// Returns hero fields as codes — no language strings.
 function buildHeroModel({ steps, goalSteps, remainingSteps, suggestedSteps }) {
   if (steps <= 0) {
     return {
-      eyebrow: "Bugun henuz baslamadin",
-      title: "Ilk 500",
-      label: "adimla ritmi ac",
-      summary: `Hedef: ${goalSteps} adim`,
-      support: "Kucuk bir yuruyusle baslayabilirsin.",
-      progressLabel: "Hazirlik modu",
+      eyebrowCode: "hero_eyebrow_not_started",
+      labelCode:   "hero_label_first500",
+      summaryCode: "hero_summary_goal",
+      summaryMeta: { goalSteps },
     };
   }
 
   if (remainingSteps <= 0) {
     return {
-      eyebrow: "Bugun hedef kapandi",
-      title: `${steps}`,
-      label: "adim",
-      summary: `Hedefin uzerindesin. Bonus alan ${Math.max(steps - goalSteps, 0)} adim.`,
-      support: "Bugun guclu gidiyorsun. Kalan saatleri hafif tempoda koru.",
-      progressLabel: "Bonus ritim",
+      eyebrowCode: "hero_eyebrow_done",
+      labelCode:   "hero_label_steps",
+      summaryCode: "hero_summary_bonus",
+      summaryMeta: { bonusSteps: Math.max(steps - goalSteps, 0) },
     };
   }
 
   return {
-    eyebrow: "Bugun harekettesin",
-    title: `${steps}`,
-    label: "adim",
-    summary: `Hedefe kalan ${remainingSteps} adim`,
-    support: `Sonraki blok icin onerilen minimum ${suggestedSteps} adim.`,
-    progressLabel: "Gunluk ilerleme",
+    eyebrowCode: "hero_eyebrow_active",
+    labelCode:   "hero_label_steps",
+    summaryCode: "hero_summary_remaining",
+    summaryMeta: { remainingSteps },
   };
 }
 
 function buildPermissionCard(permissionStatus) {
   if (permissionStatus === "denied") {
     return {
-      title: "Otomatik takip su an kapali",
-      body: "Adimlarini otomatik takip etmek icin fiziksel aktivite izni gerekli. Izin vermezsen manuel olarak da adim ekleyebilirsin.",
-      primaryLabel: "Izin Ver",
-      secondaryLabel: "Simdilik Manuel Kullan",
-      tertiaryLabel: "Ayarlari Ac",
+      titleCode:         "permission_denied_title",
+      bodyCode:          "permission_denied_body",
+      primaryLabelCode:  "permission_primary",
+      secondaryLabelCode:"permission_secondary",
+      tertiaryLabelCode: "permission_settings",
     };
   }
 
   if (permissionStatus === "unavailable") {
     return {
-      title: "Bu cihazda otomatik takip hazir degil",
-      body: "Adimlarini otomatik takip etmek icin uygun kaynak bulunamadi. Istersen manuel olarak devam edebilirsin.",
-      primaryLabel: "",
-      secondaryLabel: "Simdilik Manuel Kullan",
-      tertiaryLabel: "",
+      titleCode:         "permission_unavailable_title",
+      bodyCode:          "permission_unavailable_body",
+      primaryLabelCode:  "",
+      secondaryLabelCode:"permission_secondary",
+      tertiaryLabelCode: "",
     };
   }
 
   return {
-    title: "Adimlarini otomatik takip etmek icin fiziksel aktivite izni gerekli",
-    body: "Izin vermezsen manuel olarak da adim ekleyebilirsin.",
-    primaryLabel: "Izin Ver",
-    secondaryLabel: "Simdilik Manuel Kullan",
-    tertiaryLabel: "",
+    titleCode:         "permission_pending_title",
+    bodyCode:          "permission_pending_body",
+    primaryLabelCode:  "permission_primary",
+    secondaryLabelCode:"permission_secondary",
+    tertiaryLabelCode: "",
   };
 }
 
+// Returns report with trend codes — no language strings.
 function buildReport(history = [], trendSignals = {}) {
   const available = (history || []).filter((item) => item?.available);
   const bestDay = available.reduce((best, item) => {
@@ -165,23 +152,25 @@ function buildReport(history = [], trendSignals = {}) {
     return best;
   }, null);
 
-  let trendTitle = "Ritim dengede";
+  let trendTitleCode = "trend_steady";
   if (trendSignals.direction3 === "down" || trendSignals.direction7 === "down") {
-    trendTitle = "Ritim dusuyor";
+    trendTitleCode = "trend_down";
   } else if (trendSignals.direction3 === "up" || trendSignals.direction7 === "up") {
-    trendTitle = "Ritim yukseliyor";
+    trendTitleCode = "trend_up";
+  }
+
+  let trendSummaryCode = "trend_summary_steady";
+  if (trendSignals.direction3 === "down" || trendSignals.direction7 === "down") {
+    trendSummaryCode = "trend_summary_down";
+  } else if (trendSignals.direction3 === "up" || trendSignals.direction7 === "up") {
+    trendSummaryCode = "trend_summary_up";
   }
 
   return {
     sevenDayAverage: roundToHundreds(trendSignals.sevenDayAverage || averageStepCounts(available)),
     bestDay,
-    trendTitle,
-    trendSummary:
-      trendSignals.direction3 === "down" || trendSignals.direction7 === "down"
-        ? "Son gunlerde hareket geri cekiliyor. Bugun seriyi tekrar yukari cevirmek icin kisa bloklar kullan."
-        : trendSignals.direction3 === "up" || trendSignals.direction7 === "up"
-          ? "Son gunlerde hareket yukari tasiniyor. Ayni ritmi bugun de koruyorsun."
-          : "Son gunler dengede. Bugunu temiz kapatirsan ritim bozulmaz.",
+    trendTitleCode,
+    trendSummaryCode,
   };
 }
 
@@ -223,11 +212,7 @@ export function buildStepScreenModel({
   const hoursLeft = safeNumber(stepActiveCoach?.hoursLeft);
   const progressPercent = Number(((todayStepCount / goalSteps) * 100).toFixed(1));
   const activity = stepInsight?.activityLabel ? stepInsight : classifyStepActivity(todayStepCount);
-  const suggested = buildSuggestedSteps({
-    remainingSteps,
-    hoursLeft,
-    now,
-  });
+  const suggested = buildSuggestedSteps({ remainingSteps, hoursLeft, now });
   const hero = buildHeroModel({
     steps: todayStepCount,
     goalSteps,
@@ -237,43 +222,38 @@ export function buildStepScreenModel({
   const report = buildReport(stepHistory, stepActiveCoach?.trendSignals);
   const momentum = buildMomentum(stepHistory, streakDays);
   const screenState = buildScreenState(stepState, stepPermission?.status, manualMode);
+  const primeMsg = buildPrimeMessage({ steps: todayStepCount, goalSteps, remainingSteps, hoursLeft, now });
 
   return {
-    today_steps: todayStepCount,
-    goal_steps: goalSteps,
-    remaining_steps: remainingSteps,
-    activity_level: activity?.activityLevel || null,
-    activity_label: activity?.activityLabel || "",
-    prime_message: buildPrimeMessage({
-      steps: todayStepCount,
-      goalSteps,
-      remainingSteps,
-      hoursLeft,
-      now,
-    }),
-    trend_summary: report.trendSummary,
-    permission_state: stepPermission?.status || "pending",
-    manual_entry_enabled: true,
-    screen_state: screenState,
-    progress_percent: progressPercent,
+    today_steps:           todayStepCount,
+    goal_steps:            goalSteps,
+    remaining_steps:       remainingSteps,
+    activity_level:        activity?.activityLevel || null,
+    activity_label:        activity?.activityLabel || "",
+    prime_message:         primeMsg,
+    trend_summary_code:    report.trendSummaryCode,
+    permission_state:      stepPermission?.status || "pending",
+    manual_entry_enabled:  true,
+    screen_state:          screenState,
+    progress_percent:      progressPercent,
     hero,
-    suggested_steps: suggested.steps,
-    suggested_message: suggested.message,
+    suggested_steps:       suggested.steps,
+    suggested_message:     { code: suggested.messageCode, meta: suggested.messageMeta },
     starter: {
-      title: "Bugun henuz hareket etmedin",
-      body: "Kucuk bir yuruyusle baslayabilirsin.",
-      actionLabel: "Harekete Basla",
+      titleCode:       "starter_title",
+      bodyCode:        "starter_body",
+      actionLabelCode: "starter_action",
     },
     permission_card: buildPermissionCard(stepPermission?.status),
     report: {
-      activityLabel: activity?.activityLabel || "-",
+      activityLabel:   activity?.activityLabel || "-",
       sevenDayAverage: report.sevenDayAverage,
-      bestDay: report.bestDay,
-      trendTitle: report.trendTitle,
-      trendSummary: report.trendSummary,
-      primeNote: stepActiveCoach?.rewardMessage || report.trendSummary,
-      last3Delta: safeNumber(stepActiveCoach?.trendSignals?.delta3),
-      last7Delta: safeNumber(stepActiveCoach?.trendSignals?.delta7),
+      bestDay:         report.bestDay,
+      trendTitleCode:  report.trendTitleCode,
+      trendSummaryCode:report.trendSummaryCode,
+      primeNote:       stepActiveCoach?.rewardMessage || "",
+      last3Delta:      safeNumber(stepActiveCoach?.trendSignals?.delta3),
+      last7Delta:      safeNumber(stepActiveCoach?.trendSignals?.delta7),
     },
     mini_goals: buildSessionMiniGoals(todayStepCount, goalSteps),
     momentum,

@@ -28,25 +28,25 @@ function validateEntry(input: SaveManualSleepInput) {
   const bedtime = new Date(input.bedtime);
   const wakeTime = new Date(input.wakeTime);
   if (Number.isNaN(bedtime.getTime()) || Number.isNaN(wakeTime.getTime())) {
-    throw new Error("Manuel uyku girisinde yatış ve kalkış zamanı gecerli olmali.");
+    throw new Error("INVALID_DATETIME");
   }
   if (wakeTime <= bedtime) {
-    throw new Error("Kalkis saati yatış saatinden sonra olmali.");
+    throw new Error("WAKE_BEFORE_BEDTIME");
   }
 
   const durationMinutes = Math.round((wakeTime.getTime() - bedtime.getTime()) / 60000);
   if (durationMinutes < 30) {
-    throw new Error("Manuel uyku kaydi en az 30 dakika olmali.");
+    throw new Error("DURATION_TOO_SHORT");
   }
   if (durationMinutes > 20 * 60) {
-    throw new Error("Manuel uyku kaydi 20 saati asmamali.");
+    throw new Error("DURATION_TOO_LONG");
   }
 
   if (
     input.manualQualityScore != null &&
     (Number(input.manualQualityScore) < 1 || Number(input.manualQualityScore) > 5)
   ) {
-    throw new Error("Uyku kalitesi 1 ile 5 arasinda olmali.");
+    throw new Error("QUALITY_OUT_OF_RANGE");
   }
 }
 

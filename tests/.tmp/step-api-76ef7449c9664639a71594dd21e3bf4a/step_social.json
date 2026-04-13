@@ -1,0 +1,30 @@
+{
+  "groups": {
+    "group-c76bc37865": {
+      "group_id": "group-c76bc37865",
+      "name": "Prime Squad",
+      "invite_code": "ER5922EA",
+      "max_members": 5,
+      "members": [
+        {
+          "user_id": "step-test-user",
+          "display_name": "Emre",
+          "joined_at": "2026-04-02T17:32:21.980260+00:00"
+        },
+        {
+          "user_id": "friend-user",
+          "display_name": "Ahmet",
+          "joined_at": "2026-04-02T17:32:21.993531+00:00"
+        }
+      ],
+      "created_at": "2026-04-02T17:32:21.980260+00:00",
+      "updated_at": "2026-04-02T17:32:21.993531+00:00"
+    }
+  },
+  "memberships": {
+    "step-test-user": "group-c76bc37865",
+    "friend-user": "group-c76bc37865"
+  },
+  "challenges": {},
+  "duels": {}
+}

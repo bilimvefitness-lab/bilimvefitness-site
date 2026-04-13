@@ -1,0 +1,8 @@
+.next/
+.next-runtime/
+next-build/
+node_modules/
+out/
+build-error.log
+build-output.log
+*.tsbuildinfo

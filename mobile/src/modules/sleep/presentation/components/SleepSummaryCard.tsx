@@ -3,18 +3,19 @@ import { StyleSheet, Text, View } from "react-native";
 import type { SleepDailySummary } from "../../domain/models/SleepDailySummary";
 import type { SleepInsightSnapshot } from "../../domain/services/SleepInsightEngine";
 import { SleepSourceBadge } from "./SleepSourceBadge";
+import { useLanguage } from "../../../../i18n";
 
-function formatMinutes(value?: number | null) {
+function formatMinutes(value?: number | null, hourAbbr = "h", minAbbr = "m") {
   if (value == null) {
     return "-";
   }
   const normalized = Math.max(Number(value || 0), 0);
   const hours = Math.floor(normalized / 60);
   const minutes = normalized % 60;
-  return `${hours}s ${minutes}dk`;
+  return `${hours}${hourAbbr} ${minutes}${minAbbr}`;
 }
 
-function formatClock(value?: string | null) {
+function formatClock(value?: string | null, locale = "tr-TR") {
   if (!value) {
     return "-";
   }
@@ -22,7 +23,7 @@ function formatClock(value?: string | null) {
   if (Number.isNaN(parsed.getTime())) {
     return "-";
   }
-  return parsed.toLocaleTimeString("tr-TR", {
+  return parsed.toLocaleTimeString(locale, {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -42,43 +43,48 @@ export function SleepSummaryCard({
   summary: SleepDailySummary;
   insightSnapshot: SleepInsightSnapshot;
 }) {
+  const { t, language } = useLanguage();
+  const locale = language === "tr" ? "tr-TR" : "en-US";
+  const hourAbbr = t("sleep.hourAbbr");
+  const minAbbr  = t("sleep.minAbbr");
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
         <View style={styles.headerCopy}>
-          <Text style={styles.eyebrow}>Dun Gece</Text>
-          <Text style={styles.value}>{formatMinutes(summary.totalSleepMinutes)}</Text>
-          <Text style={styles.hint}>{insightSnapshot.shortStatus}</Text>
+          <Text style={styles.eyebrow}>{t("sleep.card.eyebrow")}</Text>
+          <Text style={styles.value}>{formatMinutes(summary.totalSleepMinutes, hourAbbr, minAbbr)}</Text>
+          <Text style={styles.hint}>{t("sleep.insight." + insightSnapshot.shortStatusCode + ".title")}</Text>
         </View>
         <SleepSourceBadge source={summary.primarySource} />
       </View>
 
       <View style={styles.metaRow}>
         <View style={styles.metric}>
-          <Text style={styles.metricLabel}>Yatis</Text>
-          <Text style={styles.metricValue}>{formatClock(summary.bedtime)}</Text>
+          <Text style={styles.metricLabel}>{t("sleep.card.bedtime")}</Text>
+          <Text style={styles.metricValue}>{formatClock(summary.bedtime, locale)}</Text>
         </View>
         <View style={styles.metric}>
-          <Text style={styles.metricLabel}>Kalkis</Text>
-          <Text style={styles.metricValue}>{formatClock(summary.wakeTime)}</Text>
+          <Text style={styles.metricLabel}>{t("sleep.card.wakeTime")}</Text>
+          <Text style={styles.metricValue}>{formatClock(summary.wakeTime, locale)}</Text>
         </View>
         <View style={styles.metric}>
-          <Text style={styles.metricLabel}>Sleep Day</Text>
+          <Text style={styles.metricLabel}>{t("sleep.card.sleepDay")}</Text>
           <Text style={styles.metricValue}>{formatDay(summary.sleepDay)}</Text>
         </View>
       </View>
 
       <View style={styles.secondaryRow}>
         <View style={styles.secondaryPill}>
-          <Text style={styles.secondaryLabel}>3 gun ort.</Text>
-          <Text style={styles.secondaryValue}>{formatMinutes(summary.trend3dAverage ?? null)}</Text>
+          <Text style={styles.secondaryLabel}>{t("sleep.card.avg3d")}</Text>
+          <Text style={styles.secondaryValue}>{formatMinutes(summary.trend3dAverage ?? null, hourAbbr, minAbbr)}</Text>
         </View>
         <View style={styles.secondaryPill}>
-          <Text style={styles.secondaryLabel}>7 gun ort.</Text>
-          <Text style={styles.secondaryValue}>{formatMinutes(summary.trend7dAverage ?? null)}</Text>
+          <Text style={styles.secondaryLabel}>{t("sleep.card.avg7d")}</Text>
+          <Text style={styles.secondaryValue}>{formatMinutes(summary.trend7dAverage ?? null, hourAbbr, minAbbr)}</Text>
         </View>
         <View style={styles.secondaryPill}>
-          <Text style={styles.secondaryLabel}>Uyanma</Text>
+          <Text style={styles.secondaryLabel}>{t("sleep.card.awakenings")}</Text>
           <Text style={styles.secondaryValue}>
             {summary.awakeningsCount != null ? String(summary.awakeningsCount) : "-"}
           </Text>

@@ -3,20 +3,25 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.router import api_router
 from app.core.config import settings
+from app.db.social_db import init_schema, migrate_from_json
 
 
 app = FastAPI(title=settings.app_name)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 app.include_router(api_router, prefix=settings.api_prefix)
+
+
+@app.on_event("startup")
+async def startup() -> None:
+    """Initialise SQLite schema and migrate any legacy JSON data on first boot."""
+    init_schema()
+    migrate_from_json()
 
 
 @app.get("/", tags=["root"])

@@ -43,6 +43,6 @@ export function mapSleepSummaryToCoachInput(summary: SleepDailySummary | null): 
     confidenceLevel: summary.confidenceLevel,
     isStageDataAvailable: Boolean(summary.isStageDataAvailable),
     insightMode: summary.isStageDataAvailable ? "stage_aware" : "duration_only",
-    insights: insightSnapshot.insights.map((item) => item.message),
+    insights: insightSnapshot.insights.map((item) => item.type),
   };
 }

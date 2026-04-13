@@ -1,0 +1,666 @@
+{
+  "demo-user": {
+    "user_id": "demo-user",
+    "weight_kg": 82.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:08:44.433397+00:00",
+    "updated_at": "2026-04-01T02:08:44.433397+00:00",
+    "goals": {
+      "bmr_kcal": 1787.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2770.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2370.6,
+      "protein": {
+        "grams": 180.4,
+        "grams_per_kg": 2.2,
+        "calories": 721.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 57.4,
+        "grams_per_kg": 0.7,
+        "calories": 516.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 283.1,
+      "carbs_kcal": 1132.4,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 82.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1787.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1787.5 x 1.550 = 2770.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2370.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 180.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 57.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 283.1 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:08:44.433452+00:00"
+    }
+  },
+  "coach-demo-user-2": {
+    "user_id": "coach-demo-user-2",
+    "weight_kg": 82.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:17:08.265099+00:00",
+    "updated_at": "2026-04-01T02:17:08.265099+00:00",
+    "goals": {
+      "bmr_kcal": 1787.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2770.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2370.6,
+      "protein": {
+        "grams": 180.4,
+        "grams_per_kg": 2.2,
+        "calories": 721.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 57.4,
+        "grams_per_kg": 0.7,
+        "calories": 516.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 283.1,
+      "carbs_kcal": 1132.4,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 82.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1787.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1787.5 x 1.550 = 2770.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2370.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 180.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 57.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 283.1 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:17:08.265155+00:00"
+    }
+  },
+  "progress-demo-user": {
+    "user_id": "progress-demo-user",
+    "weight_kg": 89.5,
+    "height_cm": 180.0,
+    "age": 34,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:22:32.606672+00:00",
+    "updated_at": "2026-04-01T02:22:32.673492+00:00",
+    "goals": {
+      "bmr_kcal": 1880.0,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2914.0,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2514.0,
+      "protein": {
+        "grams": 202.4,
+        "grams_per_kg": 2.2,
+        "calories": 809.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 64.4,
+        "grams_per_kg": 0.7,
+        "calories": 579.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 281.2,
+      "carbs_kcal": 1124.8,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 92.0) + (6.25 x 180.0) - (5 x 34) + 5 = 1880.0 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1880.0 x 1.550 = 2914.0 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2514.0 kcal.",
+        "Protein target is 2.2 g/kg, which gives 202.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 64.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 281.2 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:22:32.606737+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 92.0,
+        "measured_at": "2026-03-10T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.611742+00:00"
+      },
+      {
+        "weight_kg": 91.4,
+        "measured_at": "2026-03-15T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.615639+00:00"
+      },
+      {
+        "weight_kg": 90.8,
+        "measured_at": "2026-03-20T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.635224+00:00"
+      },
+      {
+        "weight_kg": 90.3,
+        "measured_at": "2026-03-25T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.663269+00:00"
+      },
+      {
+        "weight_kg": 89.7,
+        "measured_at": "2026-03-30T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.667826+00:00"
+      },
+      {
+        "weight_kg": 92.0,
+        "measured_at": "2026-04-01T02:22:32.606672+00:00",
+        "created_at": "2026-04-01T02:22:32.606672+00:00"
+      },
+      {
+        "weight_kg": 89.5,
+        "measured_at": "2026-04-01T08:00:00+00:00",
+        "created_at": "2026-04-01T02:22:32.673492+00:00"
+      }
+    ]
+  },
+  "progress-demo-user-2": {
+    "user_id": "progress-demo-user-2",
+    "weight_kg": 89.5,
+    "height_cm": 180.0,
+    "age": 34,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:23:05.340422+00:00",
+    "updated_at": "2026-04-01T02:23:05.396588+00:00",
+    "goals": {
+      "bmr_kcal": 1880.0,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2914.0,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2514.0,
+      "protein": {
+        "grams": 202.4,
+        "grams_per_kg": 2.2,
+        "calories": 809.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 64.4,
+        "grams_per_kg": 0.7,
+        "calories": 579.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 281.2,
+      "carbs_kcal": 1124.8,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 92.0) + (6.25 x 180.0) - (5 x 34) + 5 = 1880.0 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1880.0 x 1.550 = 2914.0 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2514.0 kcal.",
+        "Protein target is 2.2 g/kg, which gives 202.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 64.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 281.2 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:23:05.340477+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 92.0,
+        "measured_at": "2026-03-10T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.357001+00:00"
+      },
+      {
+        "weight_kg": 91.4,
+        "measured_at": "2026-03-15T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.361607+00:00"
+      },
+      {
+        "weight_kg": 90.8,
+        "measured_at": "2026-03-20T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.366615+00:00"
+      },
+      {
+        "weight_kg": 90.3,
+        "measured_at": "2026-03-25T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.384868+00:00"
+      },
+      {
+        "weight_kg": 89.7,
+        "measured_at": "2026-03-30T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.391118+00:00"
+      },
+      {
+        "weight_kg": 89.5,
+        "measured_at": "2026-04-01T08:00:00+00:00",
+        "created_at": "2026-04-01T02:23:05.396588+00:00"
+      }
+    ]
+  },
+  "decision-lite-user": {
+    "user_id": "decision-lite-user",
+    "weight_kg": 82.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:29:17.316125+00:00",
+    "updated_at": "2026-04-01T02:29:17.316125+00:00",
+    "goals": {
+      "bmr_kcal": 1787.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2770.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2370.6,
+      "protein": {
+        "grams": 180.4,
+        "grams_per_kg": 2.2,
+        "calories": 721.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 57.4,
+        "grams_per_kg": 0.7,
+        "calories": 516.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 283.1,
+      "carbs_kcal": 1132.4,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 82.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1787.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1787.5 x 1.550 = 2770.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2370.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 180.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 57.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 283.1 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:29:17.316178+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 82.0,
+        "measured_at": "2026-04-01T02:29:17.316125+00:00",
+        "created_at": "2026-04-01T02:29:17.316125+00:00"
+      }
+    ]
+  },
+  "mobile-validation-user": {
+    "user_id": "mobile-validation-user",
+    "weight_kg": 82.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:54:37.136814+00:00",
+    "updated_at": "2026-04-01T02:54:37.136814+00:00",
+    "goals": {
+      "bmr_kcal": 1787.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2770.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2370.6,
+      "protein": {
+        "grams": 180.4,
+        "grams_per_kg": 2.2,
+        "calories": 721.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 57.4,
+        "grams_per_kg": 0.7,
+        "calories": 516.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 283.1,
+      "carbs_kcal": 1132.4,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 82.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1787.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1787.5 x 1.550 = 2770.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2370.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 180.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 57.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 283.1 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:54:37.136878+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 82.0,
+        "measured_at": "2026-04-01T02:54:37.136814+00:00",
+        "created_at": "2026-04-01T02:54:37.136814+00:00"
+      }
+    ]
+  },
+  "mobile-validation-user-2": {
+    "user_id": "mobile-validation-user-2",
+    "weight_kg": 82.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T02:55:58.511288+00:00",
+    "updated_at": "2026-04-01T02:55:58.511288+00:00",
+    "goals": {
+      "bmr_kcal": 1787.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2770.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2370.6,
+      "protein": {
+        "grams": 180.4,
+        "grams_per_kg": 2.2,
+        "calories": 721.6,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 57.4,
+        "grams_per_kg": 0.7,
+        "calories": 516.6,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 283.1,
+      "carbs_kcal": 1132.4,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 82.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1787.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1787.5 x 1.550 = 2770.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2370.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 180.4 g per day.",
+        "Fat target is 0.7 g/kg, which gives 57.4 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 283.1 g per day."
+      ],
+      "calculated_at": "2026-04-01T02:55:58.511369+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 82.0,
+        "measured_at": "2026-04-01T02:55:58.511288+00:00",
+        "created_at": "2026-04-01T02:55:58.511288+00:00"
+      }
+    ]
+  },
+  "mobile-2rvkrxa7": {
+    "user_id": "mobile-2rvkrxa7",
+    "weight_kg": 105.0,
+    "height_cm": 181.0,
+    "age": 27,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 3,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T03:00:20.712740+00:00",
+    "updated_at": "2026-04-05T20:40:03.497835+00:00",
+    "goals": {
+      "bmr_kcal": 2051.25,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 3179.44,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2779.4,
+      "protein": {
+        "grams": 231.0,
+        "grams_per_kg": 2.2,
+        "calories": 924.0,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 73.5,
+        "grams_per_kg": 0.7,
+        "calories": 661.5,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 298.5,
+      "carbs_kcal": 1193.9,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 105.0) + (6.25 x 181.0) - (5 x 27) + 5 = 2051.2 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 2051.2 x 1.550 = 3179.4 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2779.4 kcal.",
+        "Protein target is 2.2 g/kg, which gives 231.0 g per day.",
+        "Fat target is 0.7 g/kg, which gives 73.5 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 298.5 g per day."
+      ],
+      "calculated_at": "2026-04-05T20:40:03.497770+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 104.0,
+        "measured_at": "2026-04-01T03:00:20.712740+00:00",
+        "created_at": "2026-04-01T03:00:20.712740+00:00"
+      }
+    ]
+  },
+  "behavior-23a08278": {
+    "user_id": "behavior-23a08278",
+    "weight_kg": 78.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T03:22:32.392332+00:00",
+    "updated_at": "2026-04-01T03:22:32.392332+00:00",
+    "goals": {
+      "bmr_kcal": 1747.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2708.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2308.6,
+      "protein": {
+        "grams": 171.6,
+        "grams_per_kg": 2.2,
+        "calories": 686.4,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 54.6,
+        "grams_per_kg": 0.7,
+        "calories": 491.4,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 282.7,
+      "carbs_kcal": 1130.8,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 78.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1747.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1747.5 x 1.550 = 2708.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2308.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 171.6 g per day.",
+        "Fat target is 0.7 g/kg, which gives 54.6 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 282.7 g per day."
+      ],
+      "calculated_at": "2026-04-01T03:22:32.392390+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 78.0,
+        "measured_at": "2026-04-01T03:22:32.392332+00:00",
+        "created_at": "2026-04-01T03:22:32.392332+00:00"
+      }
+    ]
+  },
+  "behavior-2db12ebb": {
+    "user_id": "behavior-2db12ebb",
+    "weight_kg": 78.0,
+    "height_cm": 178.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "fat_loss",
+    "created_at": "2026-04-01T03:23:39.226138+00:00",
+    "updated_at": "2026-04-01T03:23:39.226138+00:00",
+    "goals": {
+      "bmr_kcal": 1747.5,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2708.62,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2308.6,
+      "protein": {
+        "grams": 171.6,
+        "grams_per_kg": 2.2,
+        "calories": 686.4,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 54.6,
+        "grams_per_kg": 0.7,
+        "calories": 491.4,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 282.7,
+      "carbs_kcal": 1130.8,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 78.0) + (6.25 x 178.0) - (5 x 30) + 5 = 1747.5 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1747.5 x 1.550 = 2708.6 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2308.6 kcal.",
+        "Protein target is 2.2 g/kg, which gives 171.6 g per day.",
+        "Fat target is 0.7 g/kg, which gives 54.6 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 282.7 g per day."
+      ],
+      "calculated_at": "2026-04-01T03:23:39.226189+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 78.0,
+        "measured_at": "2026-04-01T03:23:39.226138+00:00",
+        "created_at": "2026-04-01T03:23:39.226138+00:00"
+      }
+    ]
+  },
+  "expo-debug-user": {
+    "user_id": "expo-debug-user",
+    "weight_kg": 80.0,
+    "height_cm": 180.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 3,
+    "goal": "maintenance",
+    "created_at": "2026-04-01T08:43:42.598966+00:00",
+    "updated_at": "2026-04-01T08:43:42.598966+00:00",
+    "goals": {
+      "bmr_kcal": 1780.0,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2759.0,
+      "calorie_adjustment_kcal": 0.0,
+      "calorie_target_kcal": 2759.0,
+      "protein": {
+        "grams": 128.0,
+        "grams_per_kg": 1.6,
+        "calories": 512.0,
+        "rationale": "Protein at 1.6 g/kg covers maintenance and recovery needs."
+      },
+      "fat": {
+        "grams": 64.0,
+        "grams_per_kg": 0.8,
+        "calories": 576.0,
+        "rationale": "Fat at 0.8 g/kg keeps a stable maintenance baseline."
+      },
+      "carbs_g": 417.8,
+      "carbs_kcal": 1671.0,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 80.0) + (6.25 x 180.0) - (5 x 30) + 5 = 1780.0 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1780.0 x 1.550 = 2759.0 kcal.",
+        "Goal calories used the maintenance rule with adjustment +0 kcal, resulting in 2759.0 kcal.",
+        "Protein target is 1.6 g/kg, which gives 128.0 g per day.",
+        "Fat target is 0.8 g/kg, which gives 64.0 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 417.8 g per day."
+      ],
+      "calculated_at": "2026-04-01T08:43:42.601551+00:00"
+    }
+  },
+  "expo-profile-debug-2": {
+    "user_id": "expo-profile-debug-2",
+    "weight_kg": 81.0,
+    "height_cm": 181.0,
+    "age": 31,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 4,
+    "goal": "maintenance",
+    "created_at": "2026-04-01T08:53:00.451141+00:00",
+    "updated_at": "2026-04-01T08:53:00.451141+00:00",
+    "goals": {
+      "bmr_kcal": 1791.25,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2776.44,
+      "calorie_adjustment_kcal": 0.0,
+      "calorie_target_kcal": 2776.4,
+      "protein": {
+        "grams": 129.6,
+        "grams_per_kg": 1.6,
+        "calories": 518.4,
+        "rationale": "Protein at 1.6 g/kg covers maintenance and recovery needs."
+      },
+      "fat": {
+        "grams": 64.8,
+        "grams_per_kg": 0.8,
+        "calories": 583.2,
+        "rationale": "Fat at 0.8 g/kg keeps a stable maintenance baseline."
+      },
+      "carbs_g": 418.7,
+      "carbs_kcal": 1674.8,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 81.0) + (6.25 x 181.0) - (5 x 31) + 5 = 1791.2 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1791.2 x 1.550 = 2776.4 kcal.",
+        "Goal calories used the maintenance rule with adjustment +0 kcal, resulting in 2776.4 kcal.",
+        "Protein target is 1.6 g/kg, which gives 129.6 g per day.",
+        "Fat target is 0.8 g/kg, which gives 64.8 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 418.7 g per day."
+      ],
+      "calculated_at": "2026-04-01T08:53:00.451235+00:00"
+    }
+  },
+  "test_user_ai_verification": {
+    "user_id": "test_user_ai_verification",
+    "weight_kg": 80.0,
+    "height_cm": 180.0,
+    "age": 30,
+    "gender": "male",
+    "activity_level": "moderate",
+    "training_frequency_per_week": 3,
+    "goal": "fat_loss",
+    "created_at": "2026-04-03T00:12:12.440459+00:00",
+    "updated_at": "2026-04-03T00:12:12.445659+00:00",
+    "goals": {
+      "bmr_kcal": 1780.0,
+      "activity_multiplier": 1.55,
+      "tdee_kcal": 2759.0,
+      "calorie_adjustment_kcal": -400.0,
+      "calorie_target_kcal": 2359.0,
+      "protein": {
+        "grams": 176.0,
+        "grams_per_kg": 2.2,
+        "calories": 704.0,
+        "rationale": "High protein at 2.2 g/kg supports muscle retention while eating below maintenance."
+      },
+      "fat": {
+        "grams": 56.0,
+        "grams_per_kg": 0.7,
+        "calories": 504.0,
+        "rationale": "Fat stays moderate at 0.7 g/kg to preserve hormones and leave room for carbs."
+      },
+      "carbs_g": 287.8,
+      "carbs_kcal": 1151.0,
+      "explanations": [
+        "BMR used Mifflin-St Jeor: (10 x 80.0) + (6.25 x 180.0) - (5 x 30) + 5 = 1780.0 kcal.",
+        "TDEE used activity multiplier 1.550 for moderate activity: 1780.0 x 1.550 = 2759.0 kcal.",
+        "Goal calories used the fat_loss rule with adjustment -400 kcal, resulting in 2359.0 kcal.",
+        "Protein target is 2.2 g/kg, which gives 176.0 g per day.",
+        "Fat target is 0.7 g/kg, which gives 56.0 g per day.",
+        "Carbs fill the remaining calories after protein and fat, resulting in 287.8 g per day."
+      ],
+      "calculated_at": "2026-04-03T00:12:12.445700+00:00"
+    },
+    "weight_history": [
+      {
+        "weight_kg": 80.0,
+        "measured_at": "2026-04-03T00:12:12.440459+00:00",
+        "created_at": "2026-04-03T00:12:12.440459+00:00"
+      }
+    ]
+  }
+}

@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useLanguage } from "../../../../i18n";
 
 type SleepEmptyStateProps = {
   title: string;
@@ -8,9 +9,10 @@ type SleepEmptyStateProps = {
 };
 
 export function SleepEmptyState({ title, description, actionLabel, onPress }: SleepEmptyStateProps) {
+  const { t } = useLanguage();
   return (
     <View style={styles.card}>
-      <Text style={styles.eyebrow}>Uyku</Text>
+      <Text style={styles.eyebrow}>{t("nav.sleep")}</Text>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
       {actionLabel && onPress ? (

@@ -1,0 +1,74 @@
+{
+  "mobile-2rvkrxa7": {
+    "2026-04-02": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-04-02",
+      "daily_task": {
+        "type": "step_goal",
+        "title": "Minimum 4100 adim topla",
+        "detail": "Gunluk minimumu kapat, sonra bonus alana gec.",
+        "target_value": 4100,
+        "progress_value": 757,
+        "completed": false
+      },
+      "achievements": [
+        {
+          "key": "first_session",
+          "title": "Ilk Session",
+          "detail": "Walk Session sistemini ilk kez tamamladin.",
+          "earned": false,
+          "earned_at": null
+        },
+        {
+          "key": "streak_3",
+          "title": "3 Gun Seri",
+          "detail": "Uc gun ust uste aktif kal.",
+          "earned": false,
+          "earned_at": null
+        },
+        {
+          "key": "streak_7",
+          "title": "7 Gun Seri",
+          "detail": "Bir haftalik ritmi bozmadan koru.",
+          "earned": false,
+          "earned_at": null
+        },
+        {
+          "key": "high_step_day",
+          "title": "Yuksek Step Gunu",
+          "detail": "10.000 adim bandini ac.",
+          "earned": false,
+          "earned_at": null
+        },
+        {
+          "key": "night_walk",
+          "title": "Gece Yuruyusu",
+          "detail": "Aksam saatlerinde bir session kapat.",
+          "earned": false,
+          "earned_at": null
+        }
+      ],
+      "streak": {
+        "current_days": 0,
+        "longest_days": 2,
+        "completed_today": false,
+        "protection_level": "safe",
+        "protection_message": "Yeni seriyi bugun acabilirsin."
+      },
+      "prime_tone": "firm",
+      "prime_message": "Prime: tablo ve hedef geride. Simdi net bir blok lazim.",
+      "fomo_messages": [
+        "Bugun gorev kapanmadi. Son blokla hala alabilirsin.",
+        "Bugun hedefe ulasmadin. Kisa bir turla fark kapanabilir."
+      ],
+      "leaderboard_rank": 1,
+      "session_summary": {
+        "completed_today": 0,
+        "total_sessions_7d": 0,
+        "latest_session_at": null
+      },
+      "created_at": "2026-04-02T16:30:31.999212+00:00",
+      "updated_at": "2026-04-02T20:48:51.570509+00:00"
+    }
+  }
+}

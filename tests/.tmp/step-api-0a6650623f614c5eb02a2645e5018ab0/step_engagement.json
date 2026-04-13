@@ -1,0 +1,45 @@
+{
+  "step-test-user": {
+    "2026-04-01": {
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "daily_task": {
+        "type": "walk_session",
+        "title": "Bir Walk Session tamamla",
+        "detail": "Gunluk gorev",
+        "target_value": 1,
+        "progress_value": 1,
+        "completed": true
+      },
+      "achievements": [
+        {
+          "key": "first_session",
+          "title": "Ilk Session",
+          "detail": "Ilk walk session tamamlandi",
+          "earned": true,
+          "earned_at": "2026-04-01T18:30:00+00:00"
+        }
+      ],
+      "streak": {
+        "current_days": 3,
+        "longest_days": 3,
+        "completed_today": true,
+        "protection_level": "safe",
+        "protection_message": "Seri korunuyor."
+      },
+      "prime_tone": "challenge",
+      "prime_message": "Bugun tabloya tekrar gir.",
+      "fomo_messages": [
+        "Seri korunuyor."
+      ],
+      "leaderboard_rank": 2,
+      "session_summary": {
+        "completed_today": 1,
+        "total_sessions_7d": 2,
+        "latest_session_at": "2026-04-01T18:30:00+00:00"
+      },
+      "created_at": "2026-04-02T13:54:34.174931+00:00",
+      "updated_at": "2026-04-02T13:54:34.174931+00:00"
+    }
+  }
+}

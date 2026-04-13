@@ -1,20 +1,296 @@
-<!doctype html>
-<html lang="en">
+﻿<!doctype html>
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book AI Studio</title>
+    <title>Fitness Notebook AI</title>
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <main class="page">
       <section class="hero">
         <p class="eyebrow">Book AI Studio</p>
-        <h1>Upload a PDF, analyze a training program, and generate a readable coach report.</h1>
+        <h1>PDF yükle, antrenman planını analiz et ve doğal dille beslenme günlüğü tut.</h1>
         <p class="subtitle">
           Backend expected at <code>http://127.0.0.1:8000/api/v1</code>
         </p>
       </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Profil ve Hedefler</h2>
+          <span id="profile-status" class="muted-text">Yükleniyor</span>
+        </div>
+        <form id="profile-form">
+          <div class="profile-grid">
+            <div>
+              <label for="profile-weight">Kilo (kg)</label>
+              <input id="profile-weight" type="number" min="1" step="0.1" required />
+            </div>
+            <div>
+              <label for="profile-height">Boy (cm)</label>
+              <input id="profile-height" type="number" min="1" step="0.1" required />
+            </div>
+            <div>
+              <label for="profile-age">Yaş</label>
+              <input id="profile-age" type="number" min="1" max="120" required />
+            </div>
+            <div>
+              <label for="profile-gender">Cinsiyet</label>
+              <select id="profile-gender" required>
+                <option value="male">Erkek</option>
+                <option value="female">Kadın</option>
+              </select>
+            </div>
+            <div>
+              <label for="profile-activity">Aktivite Seviyesi</label>
+              <select id="profile-activity" required>
+                <option value="sedentary">Sedanter</option>
+                <option value="light">Hafif aktif</option>
+                <option value="moderate">Orta aktif</option>
+                <option value="active">Aktif</option>
+                <option value="very_active">Çok aktif</option>
+              </select>
+            </div>
+            <div>
+              <label for="profile-training-frequency">Haftalık antrenman</label>
+              <input id="profile-training-frequency" type="number" min="0" max="14" required />
+            </div>
+            <div class="profile-grid-span">
+              <label for="profile-goal">Hedef</label>
+              <select id="profile-goal" required>
+                <option value="fat_loss">Yağ kaybı</option>
+                <option value="muscle_gain">Kas kazanımı</option>
+                <option value="recomposition">Recomp</option>
+                <option value="maintenance">Koruma</option>
+              </select>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="profile-save" type="submit">Profili Kaydet</button>
+          </div>
+        </form>
+        <div id="profile-feedback" class="message-box empty-state">
+          Kişisel hedeflerini hesaplamak için profilini doldur.
+        </div>
+        <div id="goal-targets" class="report-view empty-state">
+          BMR, TDEE, kalori hedefi ve makro hedefleri burada görünür.
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Beslenme Günlüğü</h2>
+          <span class="badge">Türkçe öncelikli</span>
+        </div>
+        <form id="nutrition-form">
+          <div class="quick-add-shell">
+            <div class="quick-add-group">
+              <div class="quick-add-header">
+                <strong>Favori Öğünler</strong>
+                <span class="muted-text">Tek dokunuşla doldur</span>
+              </div>
+              <div id="quick-add-favorite-meals" class="quick-add-list quick-add-list-meals"></div>
+            </div>
+            <div class="quick-add-grid">
+              <div class="quick-add-group">
+                <div class="quick-add-header">
+                  <strong>Son 10 Besin</strong>
+                  <span class="muted-text">Son kayıtlarından</span>
+                </div>
+                <div id="quick-add-recent-foods" class="quick-add-list"></div>
+              </div>
+              <div class="quick-add-group">
+                <div class="quick-add-header">
+                  <strong>Favori Besinler</strong>
+                  <span class="muted-text">Sabit kısayollar</span>
+                </div>
+                <div id="quick-add-favorite-foods" class="quick-add-list"></div>
+              </div>
+            </div>
+          </div>
+          <div class="two-col compact-grid">
+            <div>
+              <label for="meal-type">Öğün Türü</label>
+              <select id="meal-type">
+                <option value="kahvaltı">Kahvaltı</option>
+                <option value="öğle yemeği">Öğle Yemeği</option>
+                <option value="akşam yemeği">Akşam Yemeği</option>
+                <option value="ara öğün">Ara Öğün</option>
+              </select>
+            </div>
+            <div>
+              <label for="meal-date">Tarih</label>
+              <input id="meal-date" type="date" />
+            </div>
+          </div>
+          <label for="nutrition-input">Öğün Ekle</label>
+          <textarea
+            id="nutrition-input"
+            rows="5"
+            placeholder="Örnek:
+3 haşlanmış yumurta
+100 g lor
+1 muz"
+            required
+          ></textarea>
+          <div id="nutrition-suggestions" class="autocomplete-panel hidden" aria-live="polite"></div>
+          <p id="nutrition-live-hint" class="form-hint">
+            Yazdıkça otomatik ayrıştırılır. Kartlar ve makrolar 300 ms içinde güncellenir.
+          </p>
+          <div class="button-row">
+            <button id="nutrition-favorite-meal" type="button" class="button-secondary">Öğünü Favorilere Ekle</button>
+            <button id="nutrition-save" type="button">Öğünü Kaydet</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Bugünkü Komut Merkezi</h2>
+          <span id="daily-command-status" class="muted-text">Yükleniyor</span>
+        </div>
+        <div id="daily-command-card" class="report-view empty-state">
+          Günün en kritik komutu burada görünür.
+        </div>
+      </section>
+
+      <section class="layout">
+        <section class="card">
+          <div class="section-header">
+            <h2>Öğün Analizi</h2>
+            <span id="nutrition-status" class="muted-text">Bekleniyor</span>
+          </div>
+          <div id="nutrition-clarifications" class="message-box empty-state">Belirsiz porsiyon varsa burada netleştirme uyarıları görünür.</div>
+          <div id="nutrition-result" class="analysis-view empty-state">
+            3 yumurta, 150 g tavuk göğsü, 1 kase pilav gibi girişler burada temiz kartlar halinde gösterilir.
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-header">
+            <h2>Günlük Özet</h2>
+            <span id="daily-summary-status" class="muted-text">Yükleniyor</span>
+          </div>
+          <div id="daily-action-bar" class="instant-action-bar hidden"></div>
+          <div id="daily-coach" class="message-box empty-state">
+            Günlük koç mesajı burada görünür.
+          </div>
+          <div id="daily-summary" class="report-view empty-state">
+            Günlük kalori ve makro toplamları burada görünür.
+          </div>
+        </section>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <h2>Su Takibi</h2>
+          <span id="hydration-status" class="muted-text">Yükleniyor</span>
+        </div>
+        <div class="button-row hydration-tools-row">
+          <button id="hydration-open-quick-log" type="button">Hızlı Su Logu</button>
+          <button id="hydration-open-reminders" type="button" class="button-secondary">Hatırlatmalar</button>
+          <button id="hydration-open-weekly-stats" type="button" class="button-secondary">7 Gün</button>
+        </div>
+        <div id="hydration-summary" class="report-view empty-state">
+          Günlük su hedefin, içilen miktar ve kalan su burada görünür.
+        </div>
+        <div class="hydration-progress-shell">
+          <div class="hydration-progress-track" aria-hidden="true">
+            <div id="hydration-progress-fill" class="hydration-progress-fill"></div>
+          </div>
+        </div>
+        <div class="section-header section-spacer">
+          <h3>Hızlı Ekle</h3>
+          <span class="muted-text">Tek dokunuşla logla</span>
+        </div>
+        <div class="hydration-quick-add-grid">
+          <button type="button" class="button-secondary" data-role="hydration-quick-add" data-amount="1" data-unit="glass">+1 Bardak</button>
+          <button type="button" class="button-secondary" data-role="hydration-quick-add" data-amount="250" data-unit="ml">+250 ml</button>
+          <button type="button" class="button-secondary" data-role="hydration-quick-add" data-amount="500" data-unit="ml">+500 ml</button>
+          <button type="button" class="button-secondary" data-role="hydration-quick-add" data-amount="1" data-unit="liter">+1 L</button>
+        </div>
+        <form id="hydration-log-form" class="hydration-inline-form">
+          <div>
+            <label for="hydration-amount">Miktar</label>
+            <input id="hydration-amount" type="number" min="0.1" step="0.1" required />
+          </div>
+          <div>
+            <label for="hydration-unit">Birim</label>
+            <select id="hydration-unit">
+              <option value="glass">Bardak</option>
+              <option value="ml">ml</option>
+              <option value="liter">Litre</option>
+            </select>
+          </div>
+          <div class="hydration-inline-submit">
+            <label for="hydration-note">Not</label>
+            <input id="hydration-note" type="text" maxlength="160" placeholder="İsteğe bağlı" />
+          </div>
+          <div class="hydration-inline-submit">
+            <label>&nbsp;</label>
+            <button id="hydration-add" type="submit">Su Ekle</button>
+          </div>
+        </form>
+        <div id="hydration-feedback" class="message-box empty-state">
+          Su takibi hazır olduğunda buradan hızlı log ekleyebilirsin.
+        </div>
+        <div class="section-header section-spacer">
+          <h3>Su Hedefi Ayarları</h3>
+          <span id="hydration-target-status" class="muted-text">Hazır</span>
+        </div>
+        <form id="hydration-profile-form">
+          <div class="profile-grid">
+            <div>
+              <label for="hydration-weight">Kilo (kg)</label>
+              <input id="hydration-weight" type="number" min="1" step="0.1" />
+            </div>
+            <div>
+              <label for="hydration-glass">Varsayılan bardak (ml)</label>
+              <input id="hydration-glass" type="number" min="100" step="10" value="250" required />
+            </div>
+            <div>
+              <label for="hydration-target-mode">Hedef modu</label>
+              <select id="hydration-target-mode">
+                <option value="auto">Otomatik</option>
+                <option value="manual">Manuel</option>
+              </select>
+            </div>
+            <div>
+              <label for="hydration-manual-target">Manuel hedef (ml)</label>
+              <input id="hydration-manual-target" type="number" min="500" step="50" placeholder="Örn. 2800" />
+            </div>
+          </div>
+          <label class="checkbox-row" for="hydration-adjustment-enabled">
+            <input id="hydration-adjustment-enabled" type="checkbox" />
+            <span>Antrenman günü ek su ayarı altyapısını açık tut</span>
+          </label>
+          <div class="button-row">
+            <button id="hydration-save-profile" type="submit">Su Hedefini Kaydet</button>
+          </div>
+        </form>
+        <div class="section-header section-spacer">
+          <h3>Bugünkü Su Kayıtları</h3>
+          <span class="muted-text">Hatalı logu silebilirsin</span>
+        </div>
+        <div id="hydration-logs" class="meal-list empty-state">
+          Henüz su kaydı yok.
+        </div>
+      </section>
+
+      <div id="hydration-modal" class="hydration-modal hidden" aria-hidden="true">
+        <div class="hydration-modal-backdrop" data-role="hydration-modal-close"></div>
+        <section class="hydration-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="hydration-modal-title">
+          <div class="hydration-modal-header">
+            <div>
+              <p id="hydration-modal-eyebrow" class="eyebrow hydration-modal-eyebrow">Su Takibi</p>
+              <h2 id="hydration-modal-title">Hızlı Su Logu</h2>
+            </div>
+            <button id="hydration-modal-close" type="button" class="button-secondary hydration-modal-close">Kapat</button>
+          </div>
+          <div id="hydration-modal-content" class="hydration-modal-content"></div>
+        </section>
+      </div>
 
       <section class="layout">
         <section class="card">

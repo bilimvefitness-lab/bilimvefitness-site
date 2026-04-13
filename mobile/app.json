@@ -1,0 +1,66 @@
+{
+  "expo": {
+    "name": "B&F FITNESS AI",
+    "slug": "fitness-notebook-mobile",
+    "scheme": "primewalk",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#f4f7f2"
+      },
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.READ_SLEEP",
+        "android.permission.SCHEDULE_EXACT_ALARM",
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.READ_SLEEP",
+        "android.permission.SCHEDULE_EXACT_ALARM"
+      ],
+      "package": "com.anonymous.fitnessnotebookmobile"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Adim verini gostermek ve gunluk kocu kisisellestirmek icin hareket verine erisiyoruz."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35,
+            "minSdkVersion": 26
+          }
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "defaultChannel": "step-coach"
+        }
+      ],
+      "expo-health-connect",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Analiz için galeriden fotoğraf seçmene olanak tanır.",
+          "cameraPermission": "Analiz için uygulama içinden fotoğraf çekmene olanak tanır."
+        }
+      ],
+      "expo-asset"
+    ]
+  }
+}

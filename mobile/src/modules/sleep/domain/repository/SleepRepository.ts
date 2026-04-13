@@ -13,7 +13,7 @@ import {
   buildSleepInsightSnapshot,
   type SleepInsight,
 } from "../services/SleepInsightEngine";
-import { mergeSleepSessions } from "../services/SleepMergeEngine";
+import { mergeSleepSessions, mergeSummaries } from "../services/SleepMergeEngine";
 import { buildSleepDailySummaries } from "../services/SleepSummaryBuilder";
 import { SleepPermissionService } from "../../data/permissions/SleepPermissionService";
 import { HealthConnectSleepSource } from "../../data/sources/HealthConnectSleepSource";
@@ -56,7 +56,7 @@ export type SleepRepositoryStatus = (typeof SleepRepositoryStatus)[keyof typeof 
 
 export type SleepRepositoryResult = {
   status: SleepRepositoryStatus;
-  message: string;
+  messageCode: string;
   summary: SleepDailySummary | null;
   summaries: SleepDailySummary[];
   insights: SleepInsight[];
@@ -159,7 +159,7 @@ export class SleepRepository {
 
   private async buildResult(
     status: SleepRepositoryStatus,
-    message: string,
+    messageCode: string,
     summaries: SleepDailySummary[],
     sleepDay?: string | null,
     permission: SleepPermissionState | null = null,
@@ -171,7 +171,7 @@ export class SleepRepository {
 
     return {
       status,
-      message,
+      messageCode,
       summary,
       summaries,
       insights: insightSnapshot.insights,
@@ -200,58 +200,76 @@ export class SleepRepository {
 
   async getOverview(sleepDay?: string | null) {
     const range = buildSleepDayRange(7, sleepDay);
-    const permission = await this.permissionService.getPermissionState();
-    const summaries = await this.storage.getDailySummariesInRange(range.startDay, range.endDay);
 
-    if (summaries.length) {
-      const summary = pickSummaryForDay(summaries, sleepDay);
+    // Fetch permission, cached summaries, and manual sessions in parallel.
+    // Manual is always checked — not as a fallback, but as a first-class source.
+    const [permission, cachedSummaries, freshManualSessions] = await Promise.all([
+      this.permissionService.getPermissionState(),
+      this.storage.getDailySummariesInRange(range.startDay, range.endDay),
+      this.manualSource.listSessions(7, sleepDay),
+    ]);
+
+    const freshManualSummaries = freshManualSessions.length
+      ? buildSleepDailySummaries(mergeSleepSessions(freshManualSessions))
+      : [];
+
+    // Merge: manual overrides cache for the same sleepDay.
+    const merged = mergeSummaries(cachedSummaries, freshManualSummaries);
+
+    if (merged.length) {
+      // Persist any manual entries that weren't yet reflected in the cache.
+      if (freshManualSummaries.length) {
+        await this.storage.replaceDailySummariesInRange(range.startDay, range.endDay, merged);
+      }
+      const summary = pickSummaryForDay(merged, sleepDay);
       const status =
         summary && summary.isStageDataAvailable === false && !summary.isManual
           ? SleepRepositoryStatus.PARTIAL_DATA
           : SleepRepositoryStatus.SUCCESS;
-      return this.buildResult(status, "Uyku ozeti cache uzerinden yuklendi.", summaries, sleepDay, permission, true);
+      return this.buildResult(status, "OVERVIEW_LOADED", merged, sleepDay, permission, cachedSummaries.length > 0);
     }
 
+    // No data at all — return status-based empty result.
     if (permission.status === SleepPermissionStatus.DENIED) {
       return this.buildResult(
         SleepRepositoryStatus.PERMISSION_DENIED,
-        "Uyku verisine erisim izni verilmedi.",
+        "PERMISSION_DENIED",
         [],
         sleepDay,
         permission,
-        true
+        false
       );
     }
 
     if (permission.status === SleepPermissionStatus.NOT_INSTALLED) {
       return this.buildResult(
         SleepRepositoryStatus.SOURCE_NOT_INSTALLED,
-        permission.reason,
+        "SOURCE_NOT_INSTALLED",
         [],
         sleepDay,
         permission,
-        true
+        false
       );
     }
 
     if (permission.status === SleepPermissionStatus.UNAVAILABLE) {
       return this.buildResult(
         SleepRepositoryStatus.SOURCE_NOT_AVAILABLE,
-        permission.reason,
+        "SOURCE_NOT_AVAILABLE",
         [],
         sleepDay,
         permission,
-        true
+        false
       );
     }
 
     return this.buildResult(
       SleepRepositoryStatus.NO_DATA,
-      "Henüz cachelenmis uyku verisi bulunmuyor.",
+      "NO_DATA",
       [],
       sleepDay,
       permission,
-      true
+      false
     );
   }
 
@@ -266,7 +284,7 @@ export class SleepRepository {
     const hasPartial = summaries.some((item) => item.isStageDataAvailable === false && !item.isManual);
     return this.buildResult(
       hasPartial ? SleepRepositoryStatus.PARTIAL_DATA : SleepRepositoryStatus.SUCCESS,
-      "Uyku detaylari cache uzerinden yuklendi.",
+      "DETAILS_FROM_CACHE",
       summaries,
       sleepDay,
       permission,
@@ -313,7 +331,7 @@ export class SleepRepository {
       } catch {
         return this.buildResult(
           SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE,
-          "Manuel uyku kaydi yerelde kaydedildi ancak backend senkronizasyonu tamamlanamadi.",
+          "MANUAL_BACKEND_SYNC_FAILED",
           rangedSummaries,
           savedSession.sleepDay,
           {
@@ -329,7 +347,7 @@ export class SleepRepository {
 
     return this.buildResult(
       SleepRepositoryStatus.SUCCESS,
-      "Manuel uyku kaydi kaydedildi.",
+      "MANUAL_SAVED",
       rangedSummaries,
       savedSession.sleepDay,
       {
@@ -357,15 +375,20 @@ export class SleepRepository {
     });
 
     if (!healthSource) {
-      const mergedSessions = mergeSleepSessions(manualSessions);
-      const manualSummaries = buildSleepDailySummaries(mergedSessions);
-      if (manualSummaries.length) {
-        await this.storage.replaceDailySummariesInRange(range.startDay, range.endDay, manualSummaries);
+      const freshManualSummaries = buildSleepDailySummaries(mergeSleepSessions(manualSessions));
+      // Merge cached + fresh manual: manual takes precedence for its days so a
+      // just-saved entry is always visible regardless of cache state.
+      const mergedMap = new Map<string, SleepDailySummary>();
+      for (const s of cachedSummaries) mergedMap.set(s.sleepDay, s);
+      for (const s of freshManualSummaries) mergedMap.set(s.sleepDay, s);
+      const combinedSummaries = Array.from(mergedMap.values());
+      if (combinedSummaries.length) {
+        await this.storage.replaceDailySummariesInRange(range.startDay, range.endDay, combinedSummaries);
       }
       return this.buildResult(
         SleepRepositoryStatus.SOURCE_NOT_AVAILABLE,
-        "Bu platformda otomatik uyku kaynagi desteklenmiyor.",
-        manualSummaries,
+        "SOURCE_NOT_AVAILABLE",
+        combinedSummaries,
         options.sleepDay,
         permission,
         false
@@ -384,12 +407,20 @@ export class SleepRepository {
         repositoryStatus === SleepRepositoryStatus.SOURCE_NOT_AVAILABLE ||
         repositoryStatus === SleepRepositoryStatus.SOURCE_NOT_INSTALLED
       ) {
-        const fallbackSummaries = cachedSummaries.length
-          ? cachedSummaries
-          : buildSleepDailySummaries(mergeSleepSessions(manualSessions));
+        // Always merge fresh manual sessions with the cache snapshot.
+        // OR-logic (cache OR manual) misses the case where the cache was fetched
+        // before saveManualEntry committed — the fresh manual read is the source
+        // of truth for entries the user just saved.
+        const freshManualSummaries = manualSessions.length
+          ? buildSleepDailySummaries(mergeSleepSessions(manualSessions))
+          : [];
+        const mergedMap = new Map<string, SleepDailySummary>();
+        for (const s of cachedSummaries) mergedMap.set(s.sleepDay, s);
+        for (const s of freshManualSummaries) mergedMap.set(s.sleepDay, s);
+        const fallbackSummaries = Array.from(mergedMap.values());
         return this.buildResult(
           repositoryStatus,
-          readResult.message,
+          String(repositoryStatus).toUpperCase(),
           fallbackSummaries,
           options.sleepDay,
           readResult.permission,
@@ -445,7 +476,7 @@ export class SleepRepository {
           });
           return this.buildResult(
             SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE,
-            "Yerel uyku verisi guncellendi ancak backend senkronizasyonu tamamlanamadi.",
+            "BACKEND_SYNC_FAILED",
             summaries,
             options.sleepDay,
             readResult.permission,
@@ -456,7 +487,7 @@ export class SleepRepository {
 
       return this.buildResult(
         repositoryStatus,
-        readResult.message,
+        "SYNC_SUCCESS",
         summaries,
         options.sleepDay,
         readResult.permission,
@@ -473,7 +504,7 @@ export class SleepRepository {
         : buildSleepDailySummaries(mergeSleepSessions(manualSessions));
       return this.buildResult(
         SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE,
-        "Son uyku verisi korunuyor. Yeni senkronizasyon tamamlanamadi.",
+        "CACHE_SYNC_FAILED",
         fallbackSummaries,
         options.sleepDay,
         permission,

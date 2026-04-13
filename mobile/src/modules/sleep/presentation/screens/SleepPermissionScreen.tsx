@@ -6,6 +6,7 @@ import {
   type SleepRepository,
 } from "../../domain/repository/SleepRepository";
 import { SleepPermissionStatus, type SleepPermissionState } from "../../domain/models/SleepSession";
+import { useLanguage } from "../../../../i18n";
 
 export function SleepPermissionScreen({
   repository,
@@ -14,6 +15,7 @@ export function SleepPermissionScreen({
   repository?: SleepRepository;
   onResolved?: (permission: SleepPermissionState) => void;
 }) {
+  const { t } = useLanguage();
   const repositoryRef = useRef(repository || createSleepRepository());
   const repo = repository || repositoryRef.current;
   const [permission, setPermission] = useState<SleepPermissionState | null>(null);
@@ -62,26 +64,22 @@ export function SleepPermissionScreen({
 
   return (
     <View style={styles.card}>
-      <Text style={styles.eyebrow}>Uyku Erisimi</Text>
-      <Text style={styles.title}>Neden uyku verisi istiyoruz?</Text>
-      <Text style={styles.description}>
-        Bu izin toplam uyku, yatis-kalkis ve varsa stage bilgisini okuyup gunluk kocu daha baglamsal hale getirmek icin kullanilir.
-      </Text>
-      <Text style={styles.description}>
-        Veriyi uydurmayiz. Stage yoksa stage yorumu uretmeyiz. Senkronizasyon basarisiz olursa son cache ekranda kalir.
-      </Text>
-
-      {permission?.reason ? <Text style={styles.note}>{permission.reason}</Text> : null}
+      <Text style={styles.eyebrow}>{t("sleep.permission.eyebrow")}</Text>
+      <Text style={styles.title}>{t("sleep.permission.title")}</Text>
+      <Text style={styles.description}>{t("sleep.permission.description1")}</Text>
+      <Text style={styles.description}>{t("sleep.permission.description2")}</Text>
 
       <View style={styles.actions}>
         <Pressable onPress={handleRequest} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>
-            {permission?.status === SleepPermissionStatus.GRANTED ? "Izin Verildi" : "Izin Istegi Gonder"}
+            {permission?.status === SleepPermissionStatus.GRANTED
+              ? t("sleep.permission.granted")
+              : t("sleep.permission.request")}
           </Text>
         </Pressable>
         {needsSettings ? (
           <Pressable onPress={handleSettings} style={styles.secondaryButton}>
-            <Text style={styles.secondaryButtonText}>Ayarlar</Text>
+            <Text style={styles.secondaryButtonText}>{t("sleep.permission.settings")}</Text>
           </Pressable>
         ) : null}
       </View>

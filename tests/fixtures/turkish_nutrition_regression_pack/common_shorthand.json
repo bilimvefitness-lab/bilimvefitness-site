@@ -1,0 +1,233 @@
+{
+  "category": "common_turkish_shorthand",
+  "cases": [
+    {
+      "id": "H01",
+      "input": "200 g tavuk",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H02",
+      "input": "1 kase pilav",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Pirinç Pilavı",
+          "expected_weight_g": 170.0,
+          "confidence_level": "medium",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H03",
+      "input": "1 tabak makarna",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "canonical_display_name": "Haşlanmış Makarna",
+          "expected_weight_g": 180.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "portion_sizes",
+        "choices": [
+          "Küçük",
+          "Orta",
+          "Büyük"
+        ]
+      }
+    },
+    {
+      "id": "H04",
+      "input": "200 g yogurt",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yoğurt",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H05",
+      "input": "100 g lor",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Lor Peyniri",
+          "expected_weight_g": 100.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H06",
+      "input": "160 g ton",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Ton Balığı (Suda)",
+          "expected_weight_g": 160.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H07",
+      "input": "2 dilim hindi füme",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Hindi Füme Şarküteri",
+          "expected_weight_g": 40.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H08",
+      "input": "1 ölçek whey",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Whey Protein",
+          "expected_weight_g": 32.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "H09",
+      "input": "1 kase yulaf",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yulaf",
+          "expected_weight_g": 70.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "portion_sizes",
+        "choices": [
+          "Küçük",
+          "Orta",
+          "Büyük"
+        ]
+      }
+    },
+    {
+      "id": "H10",
+      "input": "patlamis misir",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Patlamis Misir",
+          "confidence_level": "high",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "food_choices",
+        "choices": [
+          "gram",
+          "adet"
+        ]
+      }
+    },
+    {
+      "id": "H11",
+      "input": "haslanmis misir",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Haslanmis Misir",
+          "confidence_level": "high",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "food_choices",
+        "choices": [
+          "gram",
+          "adet"
+        ]
+      }
+    },
+    {
+      "id": "H12",
+      "input": "100 gr patlamis misir",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Patlamis Misir",
+          "expected_weight_g": 100.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    }
+  ]
+}

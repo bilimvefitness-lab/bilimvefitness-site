@@ -1,0 +1,10 @@
+.next
+.next-runtime
+next-build
+node_modules
+build-error.log
+build-output.log
+server.js
+public/index.html
+public/app.js
+public/styles.css

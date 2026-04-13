@@ -1,0 +1,239 @@
+{
+  "category": "fallback_suggestions",
+  "cases": [
+    {
+      "id": "F01",
+      "input": "200 gr jasmin pirc",
+      "expected_resolution": "food_choice_fallback",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "raw_food_name": "jasmin pirc",
+          "canonical_display_name": null,
+          "expected_weight_g": 200.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "food_choices",
+        "choices": [
+          "Beyaz Pirinç",
+          "Pirinç Patlağı",
+          "Basmati Pirinç"
+        ]
+      }
+    },
+    {
+      "id": "F02",
+      "input": "150 gr yogrt",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yoğurt",
+          "expected_weight_g": 150.0,
+          "confidence_level": "medium",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F03",
+      "input": "120 gr tonn",
+      "expected_resolution": "food_choice_fallback",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "raw_food_name": "tonn",
+          "canonical_display_name": null,
+          "expected_weight_g": 120.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "clarification_only",
+        "choices": []
+      }
+    },
+    {
+      "id": "F04",
+      "input": "200 gr makrn",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Haşlanmış Makarna",
+          "expected_weight_g": 200.0,
+          "confidence_level": "medium",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F05",
+      "input": "1 kase plv",
+      "expected_resolution": "food_choice_fallback",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "raw_food_name": "plv",
+          "canonical_display_name": null,
+          "expected_weight_g": 170.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "clarification_only",
+        "choices": []
+      }
+    },
+    {
+      "id": "F06",
+      "input": "200 gr tavkk",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "medium",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F07",
+      "input": "100 gr hindi fumex",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Hindi Füme Şarküteri",
+          "expected_weight_g": 100.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F08",
+      "input": "1 kase mercimek crbasi",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "canonical_display_name": "Mercimek Çorbası",
+          "expected_weight_g": 250.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "portion_sizes",
+        "choices": [
+          "Küçük",
+          "Orta",
+          "Büyük"
+        ]
+      }
+    },
+    {
+      "id": "F09",
+      "input": "200 gr byz pirc",
+      "expected_resolution": "medium_confidence_direct",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Beyaz Pirinç",
+          "expected_weight_g": 200.0,
+          "confidence_level": "medium",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F10",
+      "input": "1 kase ygrt",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yoğurt",
+          "expected_weight_g": 180.0,
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "portion_sizes",
+        "choices": [
+          "Küçük",
+          "Orta",
+          "Büyük"
+        ]
+      }
+    },
+    {
+      "id": "F11",
+      "input": "180 gr lorr",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Lor Peyniri",
+          "expected_weight_g": 180.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "F12",
+      "input": "misir",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "low",
+      "expected_items": [
+        {
+          "canonical_display_name": "Patlamis Misir",
+          "confidence_level": "low",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "food_choices",
+        "choices": [
+          "Patlamis Misir",
+          "Haslanmis Misir",
+          "Koz Misir"
+        ]
+      }
+    }
+  ]
+}

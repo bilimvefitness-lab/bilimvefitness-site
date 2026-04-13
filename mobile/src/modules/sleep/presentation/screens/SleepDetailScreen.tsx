@@ -13,6 +13,7 @@ import { SleepErrorState } from "../components/SleepErrorState";
 import { SleepStageBreakdown } from "../components/SleepStageBreakdown";
 import { SleepSummaryCard } from "../components/SleepSummaryCard";
 import { SleepTrendChart } from "../components/SleepTrendChart";
+import { useLanguage } from "../../../../i18n";
 
 export function SleepDetailScreen({
   repository,
@@ -23,6 +24,7 @@ export function SleepDetailScreen({
   userId?: string | null;
   sleepDay?: string | null;
 }) {
+  const { t } = useLanguage();
   const repositoryRef = useRef(repository || createSleepRepository());
   const repo = repository || repositoryRef.current;
   const [result, setResult] = useState<SleepRepositoryResult | null>(null);
@@ -68,8 +70,8 @@ export function SleepDetailScreen({
   if (!result?.summary) {
     return (
       <SleepEmptyState
-        title="Detay gosterilemiyor"
-        description="Uyku detayini gosterebilmek icin en az bir ozet kaydina ihtiyac var."
+        title={t("sleep.emptyTitle")}
+        description={t("sleep.emptyDescription")}
       />
     );
   }
@@ -82,28 +84,27 @@ export function SleepDetailScreen({
 
       {result.status === SleepRepositoryStatus.PARTIAL_DATA ||
       result.status === SleepRepositoryStatus.SYNC_FAILED_BUT_CACHE_AVAILABLE ? (
-        <SleepErrorState status={result.status} message={result.message} />
+        <SleepErrorState status={result.status} />
       ) : null}
 
-      <SleepTrendChart title="Son 7 Gun Toplam Sure" summaries={result.summaries} variant="duration" />
-      <SleepTrendChart title="Son 7 Gun Yatis Trendi" summaries={result.summaries} variant="bedtime" />
+      <SleepTrendChart title={t("sleep.microTrend3d")} summaries={result.summaries} variant="duration" />
+      <SleepTrendChart title={t("sleep.microBedDrift")} summaries={result.summaries} variant="bedtime" />
 
       {result.isSleepEfficiencyReliable ? (
         <View style={styles.metricCard}>
-          <Text style={styles.metricLabel}>Sleep Efficiency</Text>
+          <Text style={styles.metricLabel}>{t("sleep.card.eyebrowStatus")}</Text>
           <Text style={styles.metricValue}>{result.sleepEfficiency}%</Text>
-          <Text style={styles.metricHint}>Yalnizca guvenilir time-in-bed verisi varsa gosterilir.</Text>
         </View>
       ) : null}
 
       <SleepStageBreakdown summary={result.summary} />
 
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>Icgoruler</Text>
+        <Text style={styles.cardTitle}>{t("sleep.insightsTitle")}</Text>
         {result.insights.map((item) => (
           <View key={item.id} style={styles.insightRow}>
-            <Text style={styles.insightTitle}>{item.title}</Text>
-            <Text style={styles.insightMessage}>{item.message}</Text>
+            <Text style={styles.insightTitle}>{t("sleep.insight." + item.type + ".title")}</Text>
+            <Text style={styles.insightMessage}>{t("sleep.insight." + item.type + ".message", item.meta as Record<string, string | number>)}</Text>
           </View>
         ))}
       </View>
@@ -166,9 +167,5 @@ const styles = StyleSheet.create({
     color: "#14301f",
     fontSize: 28,
     fontWeight: "900",
-  },
-  metricHint: {
-    color: "#58715a",
-    lineHeight: 20,
   },
 });

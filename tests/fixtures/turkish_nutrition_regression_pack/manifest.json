@@ -1,0 +1,31 @@
+{
+  "version": "2026-04-01",
+  "locale": "tr-TR",
+  "description": "Hard Turkish nutrition parsing regression pack for messy real-world Turkish input.",
+  "resolution_types": [
+    "direct",
+    "medium_confidence_direct",
+    "portion_clarification",
+    "food_choice_fallback"
+  ],
+  "files": [
+    "unit_variations.json",
+    "spelling_mistakes.json",
+    "common_shorthand.json",
+    "multiline_meals.json",
+    "mixed_inputs.json",
+    "fallback_suggestions.json"
+  ],
+  "coverage": {
+    "minimum_case_count": 50,
+    "current_case_count": 61,
+    "categories": [
+      "unit_variations",
+      "spelling_mistakes",
+      "common_turkish_shorthand",
+      "multi_line_meal_input",
+      "mixed_clean_and_messy_input",
+      "fallback_suggestions"
+    ]
+  }
+}

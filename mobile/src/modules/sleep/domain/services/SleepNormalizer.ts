@@ -1,6 +1,7 @@
 import { SleepBedtimeTrend } from "../models/SleepDailySummary";
 import { SleepRawSegment, SleepSegmentType, SleepSource } from "../models/SleepRawSegment";
 import { SleepConfidence, SleepManualEntry, SleepSession } from "../models/SleepSession";
+import { getLocalDateString } from "../../utils/sleepDay";
 
 type HealthConnectStage = {
   startTime: string;
@@ -66,8 +67,14 @@ function safeTimezone(value: string) {
   return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
 }
 
-function sleepDayFromWakeTime(wakeTime: string) {
-  return wakeTime.slice(0, 10);
+function sleepDayFromWakeTime(startAt: string, endAt: string): string;
+function sleepDayFromWakeTime(endAt: string): string;
+function sleepDayFromWakeTime(wakeTime: string): string {
+  const date = new Date(wakeTime);
+  if (Number.isNaN(date.getTime())) {
+    return wakeTime.slice(0, 10);
+  }
+  return getLocalDateString(date);
 }
 
 function buildSessionId(source: string, rawSessionId: string, startAt: string, endAt: string) {

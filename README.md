@@ -40,7 +40,7 @@ python -m venv .venv
 Copy-Item .env.example .env
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Backend on Windows with `py` fallback:
@@ -52,7 +52,7 @@ py -m venv .venv
 Copy-Item .env.example .env
 py -m pip install --upgrade pip
 py -m pip install -r requirements.txt
-py -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+py -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Before starting the backend, open `.env` and set:

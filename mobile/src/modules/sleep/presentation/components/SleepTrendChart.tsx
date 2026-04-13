@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import type { SleepDailySummary } from "../../domain/models/SleepDailySummary";
+import { useLanguage } from "../../../../i18n";
 
 type SleepTrendVariant = "duration" | "bedtime";
 
-function dayLabel(value: string) {
+function dayLabel(value: string, locale: string) {
   const parsed = new Date(`${value}T12:00:00`);
-  return parsed.toLocaleDateString("tr-TR", {
+  return parsed.toLocaleDateString(locale, {
     weekday: "short",
   });
 }
@@ -30,16 +31,22 @@ function numericValue(summary: SleepDailySummary, variant: SleepTrendVariant) {
   return Number(summary.totalSleepMinutes || 0);
 }
 
-function labelValue(summary: SleepDailySummary, variant: SleepTrendVariant) {
+function labelValue(
+  summary: SleepDailySummary,
+  variant: SleepTrendVariant,
+  locale: string,
+  hourAbbr: string,
+  minAbbr: string,
+) {
   if (variant === "bedtime") {
     const parsed = new Date(summary.bedtime);
     if (Number.isNaN(parsed.getTime())) {
       return "-";
     }
-    return parsed.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" });
+    return parsed.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
   }
   const totalMinutes = Number(summary.totalSleepMinutes || 0);
-  return `${Math.floor(totalMinutes / 60)}s ${totalMinutes % 60}dk`;
+  return `${Math.floor(totalMinutes / 60)}${hourAbbr} ${totalMinutes % 60}${minAbbr}`;
 }
 
 export function SleepTrendChart({
@@ -51,7 +58,12 @@ export function SleepTrendChart({
   summaries: SleepDailySummary[];
   variant?: SleepTrendVariant;
 }) {
-  const items = [...(summaries || [])].slice(-7);
+  const { language, t } = useLanguage();
+  const locale   = language === "tr" ? "tr-TR" : "en-US";
+  const hourAbbr = t("sleep.hourAbbr");
+  const minAbbr  = t("sleep.minAbbr");
+
+  const items    = [...(summaries || [])].slice(-7);
   const maxValue = Math.max(1, ...items.map((item) => numericValue(item, variant)));
 
   return (
@@ -59,15 +71,15 @@ export function SleepTrendChart({
       <Text style={styles.title}>{title}</Text>
       <View style={styles.chart}>
         {items.map((summary) => {
-          const value = numericValue(summary, variant);
+          const value  = numericValue(summary, variant);
           const height = Math.max((value / maxValue) * 120, 10);
           return (
             <View key={`${variant}-${summary.sleepDay}`} style={styles.column}>
-              <Text style={styles.value}>{labelValue(summary, variant)}</Text>
+              <Text style={styles.value}>{labelValue(summary, variant, locale, hourAbbr, minAbbr)}</Text>
               <View style={styles.track}>
                 <View style={[styles.fill, { height }]} />
               </View>
-              <Text style={styles.day}>{dayLabel(summary.sleepDay)}</Text>
+              <Text style={styles.day}>{dayLabel(summary.sleepDay, locale)}</Text>
             </View>
           );
         })}

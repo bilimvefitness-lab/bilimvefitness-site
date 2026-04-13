@@ -1,0 +1,187 @@
+{
+  "category": "spelling_mistakes",
+  "cases": [
+    {
+      "id": "S01",
+      "input": "150 grm jasmin pirinç",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Beyaz Pirinç",
+          "expected_weight_g": 150.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S02",
+      "input": "150 grm jasmine pirinc",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Beyaz Pirinç",
+          "expected_weight_g": 150.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S03",
+      "input": "200 gr tavuk gogsu",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S04",
+      "input": "120 gr hindi fume",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Hindi Füme Şarküteri",
+          "expected_weight_g": 120.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S05",
+      "input": "200 gr haslama makarna",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Haşlanmış Makarna",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S06",
+      "input": "100 gr lor peynr",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Lor Peyniri",
+          "expected_weight_g": 100.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S07",
+      "input": "170 gr pirnc pilavi",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Pirinç Pilavı",
+          "expected_weight_g": 170.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S08",
+      "input": "200 gr yogrt",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yoğurt",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S09",
+      "input": "200 gr hindi fum",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Hindi Füme Şarküteri",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": {
+        "type": "none",
+        "choices": []
+      }
+    },
+    {
+      "id": "S10",
+      "input": "patlamis misr",
+      "expected_resolution": "portion_clarification",
+      "expected_overall_confidence": "medium",
+      "expected_items": [
+        {
+          "canonical_display_name": "Patlamis Misir",
+          "confidence_level": "medium",
+          "needs_clarification": true
+        }
+      ],
+      "expected_fallback": {
+        "type": "food_choices",
+        "choices": [
+          "gram",
+          "adet"
+        ]
+      }
+    }
+  ]
+}

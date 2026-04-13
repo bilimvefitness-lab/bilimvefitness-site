@@ -1,0 +1,24 @@
+{
+  "step-test-user": {
+    "2026-04-01": {
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "step_count": 9600,
+      "source": "manual",
+      "last_synced_at": "2026-04-02T17:32:08.782751+00:00",
+      "created_at": "2026-04-02T17:32:08.782751+00:00",
+      "updated_at": "2026-04-02T17:32:08.782751+00:00"
+    }
+  },
+  "friend-user": {
+    "2026-04-01": {
+      "user_id": "friend-user",
+      "date": "2026-04-01",
+      "step_count": 8300,
+      "source": "manual",
+      "last_synced_at": "2026-04-02T17:32:08.785987+00:00",
+      "created_at": "2026-04-02T17:32:08.785987+00:00",
+      "updated_at": "2026-04-02T17:32:08.785987+00:00"
+    }
+  }
+}

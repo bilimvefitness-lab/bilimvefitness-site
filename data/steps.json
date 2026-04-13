@@ -1,0 +1,67 @@
+{
+  "mobile-2rvkrxa7": {
+    "2026-03-27": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-03-27",
+      "step_count": 7913,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-03-28": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-03-28",
+      "step_count": 6825,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-03-29": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-03-29",
+      "step_count": 1355,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-03-30": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-03-30",
+      "step_count": 6509,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-03-31": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-03-31",
+      "step_count": 917,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-04-01": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-04-01",
+      "step_count": 5489,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    },
+    "2026-04-02": {
+      "user_id": "mobile-2rvkrxa7",
+      "date": "2026-04-02",
+      "step_count": 517,
+      "source": "ios_pedometer",
+      "last_synced_at": "2026-04-02T16:31:01.421Z",
+      "created_at": "2026-04-01T22:13:47.726175+00:00",
+      "updated_at": "2026-04-02T16:31:01.835453+00:00"
+    }
+  }
+}

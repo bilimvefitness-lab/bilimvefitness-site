@@ -1,3 +1,4 @@
+import type { SleepDailySummary } from "../models/SleepDailySummary";
 import { SleepConfidence, type SleepSession } from "../models/SleepSession";
 import { SleepSource } from "../models/SleepRawSegment";
 
@@ -90,6 +91,22 @@ function sortMergedSessions(sessions: SleepSession[]) {
     }
     return left.sessionStartAt.localeCompare(right.sessionStartAt);
   });
+}
+
+/**
+ * Merges two arrays of SleepDailySummary by sleepDay.
+ * `manual` takes precedence over `cached` for the same day — the user's
+ * explicitly saved entry is always the source of truth.
+ * Result is sorted descending by sleepDay (most recent first).
+ */
+export function mergeSummaries(
+  cached: SleepDailySummary[],
+  manual: SleepDailySummary[]
+): SleepDailySummary[] {
+  const map = new Map<string, SleepDailySummary>();
+  for (const s of cached) map.set(s.sleepDay, s);
+  for (const s of manual) map.set(s.sleepDay, s); // manual overrides cache
+  return Array.from(map.values()).sort((a, b) => b.sleepDay.localeCompare(a.sleepDay));
 }
 
 export function mergeSleepSessions(sessions: SleepSession[]) {

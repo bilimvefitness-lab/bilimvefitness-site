@@ -1,0 +1,87 @@
+{
+  "push_tokens": {},
+  "events": {
+    "evt-97b1afa3e900": {
+      "event_id": "evt-97b1afa3e900",
+      "dedupe_key": "2026-04-01:challenge_completed:step-test-user:2026-04-01-daily",
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "type": "challenge_completed",
+      "title": "Challenge tamamlandi",
+      "body": "Bugunun gorevi bugun kapandi. Rozeti kasaya ekledin.",
+      "data": {
+        "challenge_id": "2026-04-01-daily",
+        "badge_key": "daily_closer",
+        "focus": "challenge"
+      },
+      "push_sent": false,
+      "created_at": "2026-04-02T17:35:46.933557+00:00",
+      "updated_at": "2026-04-02T17:35:46.933557+00:00"
+    },
+    "evt-facbdbae3b13": {
+      "event_id": "evt-facbdbae3b13",
+      "dedupe_key": "2026-04-01:duel_started:duel-1e0121acf6:step-test-user",
+      "user_id": "step-test-user",
+      "date": "2026-04-01",
+      "type": "duel_started",
+      "title": "Duel basladi",
+      "body": "Ahmet ile bugunluk yaris acildi.",
+      "data": {
+        "duel_id": "duel-1e0121acf6",
+        "focus": "duel",
+        "opponent_user_id": "friend-user",
+        "opponent_name": "Ahmet"
+      },
+      "push_sent": false,
+      "created_at": "2026-04-02T17:35:46.941270+00:00",
+      "updated_at": "2026-04-02T17:35:46.941270+00:00"
+    },
+    "evt-97a50225d4dd": {
+      "event_id": "evt-97a50225d4dd",
+      "dedupe_key": "2026-04-01:duel_started:duel-1e0121acf6:friend-user",
+      "user_id": "friend-user",
+      "date": "2026-04-01",
+      "type": "duel_started",
+      "title": "Duel basladi",
+      "body": "Emre bugun seni birebir yarisa cekti.",
+      "data": {
+        "duel_id": "duel-1e0121acf6",
+        "focus": "duel",
+        "opponent_user_id": "step-test-user",
+        "opponent_name": "Emre"
+      },
+      "push_sent": false,
+      "created_at": "2026-04-02T17:35:46.942299+00:00",
+      "updated_at": "2026-04-02T17:35:46.942299+00:00"
+    }
+  },
+  "event_keys": {
+    "2026-04-01:challenge_completed:step-test-user:2026-04-01-daily": "evt-97b1afa3e900",
+    "2026-04-01:duel_started:duel-1e0121acf6:step-test-user": "evt-facbdbae3b13",
+    "2026-04-01:duel_started:duel-1e0121acf6:friend-user": "evt-97a50225d4dd"
+  },
+  "group_rank_snapshots": {
+    "group-3f81ec5663:2026-04-01": {
+      "updated_at": "2026-04-02T17:35:46.945113+00:00",
+      "members": {
+        "step-test-user": {
+          "rank": 1,
+          "step_count": 9600,
+          "display_name": "Emre"
+        },
+        "friend-user": {
+          "rank": 2,
+          "step_count": 8300,
+          "display_name": "Ahmet"
+        }
+      }
+    }
+  },
+  "duel_snapshots": {
+    "duel-1e0121acf6": {
+      "status": "won",
+      "winner_user_id": "step-test-user",
+      "updated_at": "2026-04-02T17:35:46.946943+00:00"
+    }
+  }
+}

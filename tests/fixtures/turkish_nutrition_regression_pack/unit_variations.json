@@ -1,0 +1,140 @@
+{
+  "category": "unit_variations",
+  "cases": [
+    {
+      "id": "U01",
+      "input": "200 grm tavuk",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U02",
+      "input": "200 gr tavuk",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U03",
+      "input": "200 g tavuk göğsü",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 200.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U04",
+      "input": "0.25 kilo tavuk",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Tavuk Göğsü",
+          "expected_weight_g": 250.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U05",
+      "input": "0.5 kg beyaz pirinç",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Beyaz Pirinç",
+          "expected_weight_g": 500.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U06",
+      "input": "2 adet yumurta",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Yumurta",
+          "expected_weight_g": 100.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U07",
+      "input": "3 tane haşlanmış yumurta",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Haşlanmış Yumurta",
+          "expected_weight_g": 150.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U08",
+      "input": "1 adet protein bar",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Protein Bar",
+          "expected_weight_g": 60.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    },
+    {
+      "id": "U09",
+      "input": "250 gram lor",
+      "expected_resolution": "direct",
+      "expected_overall_confidence": "high",
+      "expected_items": [
+        {
+          "canonical_display_name": "Lor Peyniri",
+          "expected_weight_g": 250.0,
+          "confidence_level": "high",
+          "needs_clarification": false
+        }
+      ],
+      "expected_fallback": { "type": "none", "choices": [] }
+    }
+  ]
+}
